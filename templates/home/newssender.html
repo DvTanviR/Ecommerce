@@ -1,0 +1,26 @@
+{% extends 'main.html' %}
+
+{% block content %}
+
+<div class="container">
+	<div class="form-box">
+		<form method="POST">
+
+			{% csrf_token %}
+
+			<label>Subject *</label>
+			<input type="text" class="form-control" name="taitle">
+
+			<label>Message *</label>
+			<textarea  class="form-control" name="body" cols="40" rows="8"></textarea> 
+
+			<button type="submit" class="btn btn-outline-primary-2">
+				<span>Send</span>
+				<!-- <i class="icon-long-arrow-right"></i> -->
+			</button>
+
+		</form>
+	</div>
+</div>
+
+{% endblock %}

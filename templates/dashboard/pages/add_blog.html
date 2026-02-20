@@ -1,0 +1,227 @@
+{% extends 'dashboard/main.html' %}
+
+{% block content %}
+{% load static %}
+      <div class="main-content">
+        <section class="section">
+          <div class="section-body">
+            <div class="row">
+              <div class="col-12">
+                <div class="card">
+                  <div class="card-header">
+                    <h4>Add New Blog Post</h4>
+                  </div>
+                  <div class="card-body">
+                    <form method="post" enctype="multipart/form-data" action="{% url 'add_blog' %}" id="blogForm">
+                      {% csrf_token %}
+                      <div class="form-group">
+                        <label>Title</label>
+                        {{ form.title }}
+                      </div>
+                      <div class="form-group">
+                        <label>Featured Image</label>
+                        {{ form.featured_image }}
+                      </div>
+                      <div class="form-group">
+                        <label>Excerpt</label>
+                        {{ form.excerpt }}
+                      </div>
+                      <div class="form-group">
+                        <label>Category</label>
+                        <div class="input-group">
+                          {{ form.category }}
+                          <div class="input-group-append">
+                            <button type="button" class="btn btn-outline-primary" data-toggle="modal" data-target="#addCategoryModal">
+                              <i class="fas fa-plus"></i> New Category
+                            </button>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="form-group">
+                        <label>Tags</label>
+                        <div class="input-group">
+                          {{ form.tags }}
+                          <div class="input-group-append">
+                            <button type="button" class="btn btn-outline-primary" data-toggle="modal" data-target="#addTagModal">
+                              <i class="fas fa-plus"></i> New Tag
+                            </button>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="form-group">
+                        <label>Content</label>
+                        <div id="editor-content"></div>
+                        <input type="hidden" name="content" id="id_content">
+                      </div>
+                      <div class="form-group">
+                        <div class="custom-control custom-checkbox">
+                          {{ form.is_published }}
+                          <label class="custom-control-label" for="{{ form.is_published.id_for_label }}">
+                            Publish immediately
+                          </label>
+                        </div>
+                      </div>
+                      <button type="submit" class="btn btn-primary">Save Blog Post</button>
+                      <a href="{% url 'blogs' %}" class="btn btn-secondary">Cancel</a>
+                    </form>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+      </div>
+
+      <!-- Add Category Modal -->
+      <div class="modal fade" id="addCategoryModal" tabindex="-1" role="dialog" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title">Add New Category</h5>
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            <div class="modal-body">
+              <form id="addCategoryForm">
+                {% csrf_token %}
+                <div class="form-group">
+                  <label>Category Name</label>
+                  <input type="text" class="form-control" name="name" required>
+                </div>
+                <div class="form-group">
+                  <label>Description</label>
+                  <textarea class="form-control" name="description" rows="3"></textarea>
+                </div>
+                <button type="submit" class="btn btn-primary">Save Category</button>
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Add Tag Modal -->
+      <div class="modal fade" id="addTagModal" tabindex="-1" role="dialog" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title">Add New Tag</h5>
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            <div class="modal-body">
+              <form id="addTagForm">
+                {% csrf_token %}
+                <div class="form-group">
+                  <label>Tag Name</label>
+                  <input type="text" class="form-control" name="name" required>
+                </div>
+                <button type="submit" class="btn btn-primary">Save Tag</button>
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <link href="https://cdn.jsdelivr.net/npm/quill@2.0.3/dist/quill.snow.css" rel="stylesheet" />
+      <script src="https://cdn.jsdelivr.net/npm/quill@2.0.3/dist/quill.js"></script>
+
+      <script>
+        // Initialize Quill editor for blog content
+        const quill = new Quill('#editor-content', {
+          theme: 'snow',
+          modules: {
+            toolbar: [
+              [{ 'header': [1, 2, 3, 4, 5, 6, false] }],
+              ['bold', 'italic', 'underline', 'strike'],
+              [{ 'list': 'ordered'}, { 'list': 'bullet' }],
+              [{ 'script': 'sub'}, { 'script': 'super' }],
+              [{ 'indent': '-1'}, { 'indent': '+1' }],
+              [{ 'color': [] }, { 'background': [] }],
+              ['link', 'image', 'video'],
+              ['clean']
+            ]
+          }
+        });
+
+        // Ensure content is set before form submission
+        document.getElementById('blogForm').addEventListener('submit', function(e) {
+          e.preventDefault();
+          document.getElementById('id_content').value = quill.root.innerHTML;
+          this.submit();
+        });
+
+        // Handle category creation
+        document.getElementById('addCategoryForm').addEventListener('submit', function(e) {
+          e.preventDefault();
+          const formData = new FormData(this);
+          
+          fetch('{% url "add_blog_category" %}', {
+            method: 'POST',
+            body: formData,
+            headers: {
+              'X-CSRFToken': formData.get('csrfmiddlewaretoken')
+            }
+          })
+          .then(response => response.json())
+          .then(data => {
+            if (data.status === 'success') {
+              const select = document.querySelector('#id_category');
+              const option = new Option(data.name, data.id);
+              select.add(option);
+              select.value = data.id;
+              $('#addCategoryModal').modal('hide');
+              e.target.reset();
+            } else {
+              alert('Error: ' + data.message);
+            }
+          })
+          .catch(error => {
+            console.error('Error:', error);
+            alert('Error creating category');
+          });
+        });
+
+        // Handle tag creation
+        document.getElementById('addTagForm').addEventListener('submit', function(e) {
+          e.preventDefault();
+          const formData = new FormData(this);
+          
+          fetch('{% url "add_blog_tag" %}', {
+            method: 'POST',
+            body: formData,
+            headers: {
+              'X-CSRFToken': formData.get('csrfmiddlewaretoken')
+            }
+          })
+          .then(response => response.json())
+          .then(data => {
+            if (data.status === 'success') {
+              const select = document.querySelector('#id_tags');
+              const option = new Option(data.name, data.id);
+              select.add(option);
+              
+              if (select.multiple) {
+                const selectedOptions = Array.from(select.selectedOptions).map(opt => opt.value);
+                selectedOptions.push(data.id.toString());
+                select.value = selectedOptions;
+              } else {
+                select.value = data.id;
+              }
+              
+              $('#addTagModal').modal('hide');
+              e.target.reset();
+            } else {
+              alert('Error: ' + data.message);
+            }
+          })
+          .catch(error => {
+            console.error('Error:', error);
+            alert('Error creating tag');
+          });
+        });
+      </script>
+{% endblock %}

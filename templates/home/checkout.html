@@ -1,0 +1,230 @@
+{% extends 'main.html' %}
+
+
+{% block content %}
+{% load custom_tag %}
+
+        <main class="main">
+        	<!-- <div class="page-header text-center" style="background-image: url('assets/images/page-header-bg.jpg')">
+        		<div class="container">
+        			<h1 class="page-title">Checkout<span>Shop</span></h1>
+        		</div>
+        	</div> -->
+            <nav aria-label="breadcrumb" class="breadcrumb-nav">
+                <div class="container">
+                    <ol class="breadcrumb">
+                        <li class="breadcrumb-item"><a href="{% url 'home' %}">Home</a></li>
+                        <li class="breadcrumb-item"><a href="{% url 'shop' %}">Shop</a></li>
+                        <li class="breadcrumb-item active" aria-current="page">Checkout</li>
+                    </ol>
+                </div><!-- End .container -->
+            </nav><!-- End .breadcrumb-nav -->
+
+            <div class="page-content">
+            	<div class="checkout">
+	                <div class="container">
+						{% if messages %}
+						<ul class="messages">
+							{% for message in messages %}
+							 	<li id="django-messeges">{{ message }}</li>
+							{% endfor %}
+						</ul>
+						{% endif %}
+
+            			<!-- <div class="checkout-discount">
+            				<form action="#">
+        						<input type="text" class="form-control" required id="checkout-discount-input">
+            					<label for="checkout-discount-input" class="text-truncate">Have a coupon? <span>Click here to enter your code</span></label>
+            				</form>
+            			</div>End .checkout-discount -->
+            			<form action="" method="POST">
+							{% csrf_token %}
+		                	<div class="row">
+		                		<div class="col-lg-9">
+		                			<h2 class="checkout-title">Partuse Information</h2>
+		                			
+                                    <div class="details-filter-row details-row-size">
+                                    	{% if product.size == True %}
+                                        <label for="size">Size:</label>
+                                        <div class="select-custom">
+                                            <select name="size" id="size" class="form-control" aria-required="true" required>
+                                                <option value="#" selected="selected">Select a size</option>
+                                                <option value="m">Medium</option>
+                                                <option value="l">Large</option>
+                                                <option value="xl">Extra Large</option>
+                                            </select>
+                                       	</div><!-- End .select-custom -->
+                                       	{% endif %}
+                                       	<label for="qty">Qty:</label>
+                                        <div class="product-details-quantity">
+                                            <input type="number" id="qty" class="form-control" value="1" min="1" max="10" step="1" data-decimals="0" name="quintity" required>
+                                        </div><!-- End .product-details-quantity -->
+                                    </div>
+
+		                			<h2 class="checkout-title">Billing Details</h2><!-- End .checkout-title -->
+		                				
+	            						<label>Name *</label>
+	            						<input type="text" name="name" class="form-control" value="{{request.user.name}}" required>
+
+										<h2 class="checkout-title">Delevery Address</h2>
+	            						<label>Country *</label>
+	            						<input type="text" name="country" class="form-control" value="Bangladesh" required>
+
+                            <div class="form-group mb-3">
+                                <label>Delivery Location *</label>
+                                <select name="delivery_location" class="form-control" id="delivery_location" required>
+                                    <option value="dhaka">Dhaka</option>
+                                    <option value="outside">Outside Dhaka</option>
+                                </select>
+                            </div>
+
+                            <label>Street address *</label>
+                            <input type="text" name="address" class="form-control" placeholder="House number and Street name" required>
+                            <input type="text" name="address2" class="form-control mt-1" placeholder="Apartment, suite, unit, etc. (optional)">
+
+	            						<div class="row">
+		                					<div class="col-sm-6">
+		                						<label>Town / City *</label>
+		                						<input type="text" name="town" class="form-control" required>
+		                					</div>
+
+		                					<div class="col-sm-6">
+		                						<label>Postcode / ZIP *</label>
+		                						<input type="text" name="postcode" class="form-control" required>
+		                					</div><!-- End .col-sm-6 -->
+		                					<!-- <div class="col-sm-6">
+		                						<label>State / County *</label>
+		                						<input type="text" class="form-control">
+		                					</div>End .col-sm-6 -->
+		                				</div><!-- End .row -->
+									<h2 class="checkout-title">Contact Details</h2>
+
+		                				<div class="row">
+		                					
+
+		                					<div class="col-sm-6">
+		                						<label>Phone *</label>
+		                						<input type="tel" name="phone" class="form-control" value="{{request.user.phone}}" required>
+		                					</div><!-- End .col-sm-6 -->
+		                				</div><!-- End .row -->
+
+	                					<label>Email address (Optional)</label>
+	        							<input type="email" name="email" class="form-control" value="{{request.user.email}}" required>
+
+	        							<!-- <div class="custom-control custom-checkbox">
+											<input type="checkbox" class="custom-control-input" id="checkout-create-acc">
+											<label class="custom-control-label" for="checkout-create-acc">Create an account?</label>
+										</div>End .custom-checkbox -->
+
+										<!-- <div class="custom-control custom-checkbox">
+											<input type="checkbox" class="custom-control-input" id="checkout-diff-address">
+											<label class="custom-control-label" for="checkout-diff-address">Ship to a different address?</label>
+										</div>End .custom-checkbox -->
+
+	                					<!-- <label>Order notes (optional)</label>
+	        							<textarea class="form-control" cols="30" rows="4" placeholder="Notes about your order, e.g. special notes for delivery"></textarea> -->
+		                		</div><!-- End .col-lg-9 -->
+		                		<aside class="col-lg-3">
+		                			<div class="summary">
+		                				<h3 class="summary-title">Your Order</h3><!-- End .summary-title -->
+
+		                				<table class="table table-summary">
+		                					<thead>
+		                						<tr>
+		                							<th>Product</th>
+		                							<th>Total</th>
+		                						</tr>
+		                					</thead>
+
+		                					<tbody>
+		                						<tr>
+		                							<td><a href="{% url 'product' product.slug %}">{{product.taitle}}</a></td>
+		                							<td>৳<span id="product_price">{{product.price}}</span> Tk</td>
+		                						</tr>
+		                						<tr class="summary-subtotal">
+		                							<td>Subtotal:</td>
+		                							<td>৳<span id="subtotal">{{product.price}}</span> Tk</td>
+		                						</tr>
+		                						<tr>
+		                							<td>Shipping:</td>
+		                							<td>৳<span id="delivery_price">60</span> Tk</td>
+		                						</tr>
+		                						<tr class="summary-total">
+		                							<td>Total:</td>
+		                							<td>৳<span id="total_price">{% to_int product.price "60" %}</span> Tk</td>
+		                						</tr><!-- End .summary-total -->
+		                					</tbody>
+		                				</table><!-- End .table table-summary -->
+
+		                				<div class="accordion-summary" id="accordion-payment">
+										   
+										    <div class="card">
+										        <div class="card-header" id="heading-3">
+										            <h2 class="card-title">
+										                <input id="cashradio" type="radio" name="" class="collapsed" role="button" data-toggle="collapse" href="#collapse-3" aria-expanded="false" aria-controls="collapse-3" aria-selected="true" required>Cash on delivery
+										            </h2>
+										        </div><!-- End .card-header -->
+										        <div id="collapse-3" class="collapse" aria-labelledby="heading-3" data-parent="#accordion-payment">
+										            <div class="card-body" id="delever-note">
+										            </div><!-- End .card-body -->
+										        </div><!-- End .collapse -->
+										    </div><!-- End .card -->
+
+
+										   
+										</div><!-- End .accordion -->
+
+		                				<button type="submit" class="btn btn-outline-primary-2 btn-order btn-block">
+		                					<span class="btn-text">Place Order</span>
+		                					<span class="btn-hover-text">Proceed to Checkout</span>
+		                				</button>
+		                			</div><!-- End .summary -->
+		                		</aside><!-- End .col-lg-3 -->
+		                	</div><!-- End .row -->
+            			</form>
+	                </div><!-- End .container -->
+                </div><!-- End .checkout -->
+            </div><!-- End .page-content -->
+        </main><!-- End .main -->
+
+{% endblock %}
+
+
+{% block extrajs %}
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const deliveryLocationSelect = document.getElementById('delivery_location');
+    const deliveryPriceSpan = document.getElementById('delivery_price');
+    const totalPriceSpan = document.getElementById('total_price');
+    const subtotalSpan = document.getElementById('subtotal');
+    
+    // Remove currency symbols and convert to number
+    function extractNumber(str) {
+        return parseFloat(str.replace('৳', '').replace('Tk', '').trim());
+    }
+    
+    // Format number with currency symbol
+    function formatCurrency(num) {
+        return num.toFixed(0);  // Bengali Taka doesn't use decimals
+    }
+    
+    function updatePrices() {
+        const subtotalAmount = extractNumber(subtotalSpan.textContent);
+        const deliveryPrice = deliveryLocationSelect.value === 'dhaka' ? 60 : 120;
+        
+        // Update delivery price display
+        deliveryPriceSpan.textContent = formatCurrency(deliveryPrice);
+        
+        // Calculate and update total
+        const total = subtotalAmount + deliveryPrice;
+        totalPriceSpan.textContent = formatCurrency(total);
+    }
+
+    // Update prices when delivery location changes
+    deliveryLocationSelect.addEventListener('change', updatePrices);
+    
+    // Initial update
+    updatePrices();
+});
+</script>
+{% endblock %}

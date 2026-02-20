@@ -1,0 +1,255 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+
+<!-- molla/index-4.html  22 Nov 2019 09:53:08 GMT -->
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>YourBrand - Mobile & Accessories</title>
+    <meta name="keywords" content="Mobile shop, smartphone, phone charger, mobile accessories, online store">
+    <meta name="description" content="Browse and shop for smartphones, accessories, and mobile products. Quality items at great prices.">
+    <meta name="author" content="Your Company">
+
+    <!-- Tab Icon / Favicon -->
+    <link rel="icon" type="image/png" sizes="32x32" href="{% static 'assets/img/logo.png' %}">
+    <link rel="shortcut icon" href="{% static 'assets/img/logo.png' %}">
+    <!-- Favicon -->
+    <link rel="apple-touch-icon" sizes="180x180" href="{% static 'assets/img/logo.png' %}">
+    <link rel="icon" type="image/png" sizes="32x32" href="{% static 'assets/img/logo.png' %}">
+    <link rel="icon" type="image/png" sizes="16x16" href="{% static 'assets/img/logo.png' %}">
+    <link rel="manifest" href="{% static 'assets/img/logo.png' %}">
+    <link rel="mask-icon" href="{% static 'assets/img/logo.png' %}" color="#666666">
+    <link rel="shortcut icon" href="{% static 'assets/img/logo.png' %}">
+
+
+
+    <meta name="apple-mobile-web-app-title" content="YourBrand">
+    <meta name="application-name" content="YourBrand">
+    <meta name="msapplication-TileColor" content="#0a5c9c">
+
+    <meta name="msapplication-config" content="{% static 'assets/images/icons/browserconfig.xml' %}">
+
+    <meta name="theme-color" content="#0a5c9c">
+    <link rel="stylesheet" href="{% static 'assets/vendor/line-awesome/line-awesome/line-awesome/css/line-awesome.min.css' %}">
+    <!-- Plugins CSS File -->
+    <link rel="stylesheet" href="{% static 'assets/css/bootstrap.min.css' %}">
+    <link rel="stylesheet" href="{% static 'assets/css/plugins/owl-carousel/owl.carousel.css' %}">
+    <link rel="stylesheet" href="{% static 'assets/css/plugins/magnific-popup/magnific-popup.css' %}">
+    <link rel="stylesheet" href="{% static 'assets/css/plugins/jquery.countdown.css' %}">
+    <!-- Main CSS File -->
+    <link rel="stylesheet" href="{% static 'assets/css/style.css' %}">
+    <link rel="stylesheet" href="{% static 'assets/css/skins/skin-demo-4.css' %}">
+    <link rel="stylesheet" href="{% static 'assets/css/demos/demo-4.css' %}">
+    <link rel="stylesheet" href="{% static 'assets/css/theam.css' %}">
+
+    <!-- Preload critical images -->
+    {% for item in coversell %}
+    <link rel="preload" as="image" href="{{ item.image.url }}">
+    <link rel="preload" as="image" href="{{ item.mobile_image.url }}">
+    {% endfor %}
+
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-PYWDJXJD8L"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+
+        gtag('config', 'G-PYWDJXJD8L');
+    </script>
+
+    
+</head>
+
+
+<body>
+
+
+    {% include 'header.html' %}
+
+
+    {% block content %}
+    
+    {% endblock %}
+
+        <button id="scroll-top" title="Back to Top"><i class="icon-arrow-up"></i></button>
+        
+
+    <!-- Mobile Menu -->
+    <div class="mobile-menu-overlay"></div><!-- End .mobil-menu-overlay -->
+
+
+
+
+    <div class="mobile-menu-container mobile-menu-light">
+        <div class="mobile-menu-wrapper">
+            <span class="mobile-menu-close"><i class="icon-close"></i></span>
+            
+            <form action="{% url 'shop' %}" method="get" class="mobile-search" autocomplete="off" style="position:relative;">
+                <label for="mobile-search" class="sr-only">Search</label>
+                <input type="search" class="form-control" name="q" id="mobile-search" placeholder="Search product ..." required autocomplete="off">
+                <button class="btn btn-primary" type="submit"><i class="icon-search"></i></button>
+                <div id="mobile-search-suggestions" class="search-suggestions" style="display: none; position: absolute; left: 0; right: 0; top: 100%; z-index: 9999;"></div>
+            </form>
+
+            <ul class="nav nav-pills-mobile nav-border-anim" role="tablist">
+                <li class="nav-item">
+                    <a class="nav-link active" id="mobile-menu-link" data-toggle="tab" href="#mobile-menu-tab" role="tab" aria-controls="mobile-menu-tab" aria-selected="true">Menu</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" id="mobile-cats-link" data-toggle="tab" href="#mobile-cats-tab" role="tab" aria-controls="mobile-cats-tab" aria-selected="false">Categories</a>
+                </li>
+            </ul>
+
+            <div class="tab-content">
+                <div class="tab-pane fade show active" id="mobile-menu-tab" role="tabpanel" aria-labelledby="mobile-menu-link">
+                    <nav class="mobile-nav">
+                        <ul class="mobile-menu">
+                            <li><a href="{% url 'home' %}">Home</a></li>
+                            <li><a href="{% url 'shop' %}">Shop</a></li>
+                            <li><a href="{% url 'sell' %}">Sell</a></li>
+                            <li><a href="{% url 'top' %}">Top products</a></li>
+                            <li><a href="{% url 'account' %}">Account</a></li>
+                            <li>
+                                <a href="#">Pages</a>
+                                <ul>
+                                    <li><a href="{% url 'contact' %}">Contact</a></li>
+                                    <li><a href="{% url 'about' %}">About</a></li>
+                                    <li><a href="{% url 'blog' %}">Blog</a></li>
+                                </ul>
+                            </li>
+                        </ul>
+                    </nav><!-- End .mobile-nav -->
+                </div><!-- .End .tab-pane -->
+                <div class="tab-pane fade" id="mobile-cats-tab" role="tabpanel" aria-labelledby="mobile-cats-link">
+                    <nav class="mobile-cats-nav">
+                        <ul class="mobile-cats-menu">
+                            {% for item in catagorys %}
+                            <li class="item-lead"><a href="/shop/?q={{item.name}}">{{item.name}}</a></li>
+                            {% endfor %}
+                        </ul><!-- End .mobile-cats-menu -->
+                    </nav><!-- End .mobile-cats-nav -->
+                </div><!-- .End .tab-pane -->
+            </div><!-- End .tab-content -->
+
+            <div class="social-icons">
+                <a href="#" class="social-icon" target="_blank" title="Facebook"><i class="icon-facebook-f"></i></a>
+            </div><!-- End .social-icons -->
+        </div><!-- End .mobile-menu-wrapper -->
+    </div><!-- End .mobile-menu-container -->
+
+
+
+
+    {% include 'footer.html' %}
+
+
+
+    <script src="{% static 'assets/js/jquery.min.js' %}"></script>
+    <script src="{% static 'assets/js/bootstrap.bundle.min.js' %}"></script>
+    <script src="{% static 'assets/js/jquery.hoverIntent.min.js' %}"></script>
+    <script src="{% static 'assets/js/jquery.waypoints.min.js' %}"></script>
+    <script src="{% static 'assets/js/superfish.min.js' %}"></script>
+    <script src="{% static 'assets/js/owl.carousel.min.js' %}"></script>
+    <script src="{% static 'assets/js/bootstrap-input-spinner.js' %}"></script>
+    <script src="{% static 'assets/js/jquery.plugin.min.js' %}"></script>
+    <script src="{% static 'assets/js/jquery.magnific-popup.min.js' %}"></script>
+    <script src="{% static 'assets/js/jquery.countdown.min.js' %}"></script>
+    <!-- Main JS File -->
+    <script src="{% static 'assets/js/main.js' %}"></script>
+    <script>
+    // Mobile live search suggestion
+    document.addEventListener('DOMContentLoaded', function() {
+        const mobileSearchInput = document.getElementById('mobile-search');
+        const mobileSuggestionsContainer = document.getElementById('mobile-search-suggestions');
+        let mobileDebounceTimer;
+
+        mobileSearchInput.addEventListener('input', function() {
+            clearTimeout(mobileDebounceTimer);
+            const query = this.value.trim();
+            if (query.length < 2) {
+                mobileSuggestionsContainer.style.display = 'none';
+                return;
+            }
+            mobileDebounceTimer = setTimeout(() => {
+                fetch(`/search-suggestions/?q=${encodeURIComponent(query)}`)
+                    .then(response => response.json())
+                    .then(data => {
+                        if (data.suggestions && data.suggestions.length > 0) {
+                            const html = data.suggestions.map(suggestion => `
+                                <div class="suggestion-item" onclick="selectMobileSuggestion('${suggestion.title}')">
+                                    <div>${suggestion.title}</div>
+                                    <div class="category">${suggestion.category}</div>
+                                </div>
+                            `).join('');
+                            mobileSuggestionsContainer.innerHTML = html;
+                            mobileSuggestionsContainer.style.display = 'block';
+                        } else {
+                            mobileSuggestionsContainer.style.display = 'none';
+                        }
+                    });
+            }, 300);
+        });
+        document.addEventListener('click', function(e) {
+            if (!mobileSearchInput.contains(e.target) && !mobileSuggestionsContainer.contains(e.target)) {
+                mobileSuggestionsContainer.style.display = 'none';
+            }
+        });
+    });
+    function selectMobileSuggestion(text) {
+        document.getElementById('mobile-search').value = text;
+        document.getElementById('mobile-search-suggestions').style.display = 'none';
+    }
+    </script>
+    <script src="{% static 'assets/js/demos/demo-4.js' %}"></script>
+    <script src="{% static 'assets/js/imageloader.js' %}"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-zoom/1.7.21/jquery.zoom.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.elevatezoom/3.0.8/jquery.elevatezoom.min.js"></script>
+    <!-- Initialize lazy loading -->
+     <!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-PH4E7QFL0K"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-PH4E7QFL0K');
+</script>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            const lazyImages = document.querySelectorAll("img.lazy");
+            if ("IntersectionObserver" in window) {
+                const imageObserver = new IntersectionObserver(function(entries, observer) {
+                    entries.forEach(function(entry) {
+                        if (entry.isIntersecting) {
+                            const img = entry.target;
+                            img.src = img.dataset.src;
+                            img.classList.remove("lazy");
+                            imageObserver.unobserve(img);
+                        }
+                    });
+                });
+
+                lazyImages.forEach(function(img) {
+                    imageObserver.observe(img);
+                });
+            } else {
+                // Fallback for browsers that don't support IntersectionObserver
+                lazyImages.forEach(function(img) {
+                    img.src = img.dataset.src;
+                    img.classList.remove("lazy");
+                });
+            }
+        });
+    </script>
+    {% block extra_js %}{% endblock %}
+
+</body>
+
+
+<!-- molla/index-4.html  22 Nov 2019 09:54:18 GMT -->
+</html>

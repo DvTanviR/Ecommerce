@@ -1,0 +1,135 @@
+{% extends 'dashboard/main.html' %}
+
+{% block content %}
+{% load static %}
+<div class="main-content">
+  <section class="section">
+    <div class="section-body">
+      <div class="row">
+        <div class="col-12">
+          <div class="card mb-4">
+            <div class="card-header"><h4>CoverSell Management</h4></div>
+            <div class="card-body">
+              <h5>Add New Cover</h5>
+              <form method="post" enctype="multipart/form-data" action="{% url 'add_cover' %}">
+                {% csrf_token %}
+                {{ cover_form.as_p }}
+                <button type="submit" class="btn btn-primary">Add Cover</button>
+              </form>
+              <hr>
+              <h5>Existing Covers</h5>
+              <table class="table table-bordered">
+                <thead>
+                  <tr>
+                    <th>Image</th>
+                    <th>Mobile Image</th>
+                    <th>URL</th>
+                    <th>Actions</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {% for cover in covers %}
+                  <tr>
+                    <td>{% if cover.image %}<img src="{{ cover.image.url }}" width="80">{% endif %}</td>
+                    <td>{% if cover.mobile_image %}<img src="{{ cover.mobile_image.url }}" width="80">{% endif %}</td>
+                    <td>{{ cover.url }}</td>
+                    <td>
+                      <a href="{% url 'edit_cover' cover.pk %}" class="btn btn-sm btn-info">Edit</a>
+                      <form method="post" action="{% url 'delete_cover' cover.pk %}" style="display:inline;">
+                        {% csrf_token %}
+                        <button type="submit" class="btn btn-sm btn-danger" onclick="return confirm('Delete this cover?');">Delete</button>
+                      </form>
+                    </td>
+                  </tr>
+                  {% endfor %}
+                </tbody>
+              </table>
+            </div>
+          </div>
+
+          <div class="card mb-4">
+            <div class="card-header"><h4>TrendCover Management</h4></div>
+            <div class="card-body">
+              {% if trend_cover %}
+                <form method="post" enctype="multipart/form-data" action="{% url 'edit_trend_cover' %}">
+                  {% csrf_token %}
+                  {{ trend_form.as_p }}
+                  <button type="submit" class="btn btn-primary">Update Trend Cover</button>
+                </form>
+                <hr>
+                <h5>Current Trend Cover</h5>
+                <p>Link: {{ trend_cover.link }}</p>
+                {% if trend_cover.image %}<img src="{{ trend_cover.image.url }}" width="120">{% endif %}
+              {% else %}
+                <p>No TrendCover found.</p>
+              {% endif %}
+            </div>
+          </div>
+
+          <div class="card mb-4">
+            <div class="card-header"><h4>FeaturedProduct Management</h4></div>
+            <div class="card-body">
+              <table class="table table-bordered">
+                <thead>
+                  <tr>
+                    <th>Background</th>
+                    <th>Category</th>
+                    <th>Title</th>
+                    <th>URL</th>
+                    <th>Edit</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {% for fp in featured_products %}
+                  <tr>
+                    <td>{% if fp.background %}<img src="{{ fp.background.url }}" width="80">{% endif %}</td>
+                    <td>{{ fp.catagory }}</td>
+                    <td>{{ fp.taitle }}</td>
+                    <td>{{ fp.url }}</td>
+                    <td>
+                      <a href="{% url 'edit_featured_product' fp.pk %}" class="btn btn-sm btn-info">Edit</a>
+                    </td>
+                  </tr>
+                  {% endfor %}
+                </tbody>
+              </table>
+            </div>
+          </div>
+
+          <div class="card mb-4">
+            <div class="card-header"><h4>FlashDeal Management</h4></div>
+            <div class="card-body">
+              <a href="{% url 'edit_flash_deal' %}" class="btn btn-primary mb-3">
+                {% if flash_deal %}
+                  Edit Flash Deal
+                {% else %}
+                  Create Flash Deal
+                {% endif %}
+              </a>
+              <hr>
+              {% if flash_deal %}
+                <h5>Current Flash Deal</h5>
+                <div class="row">
+                  <div class="col-md-6">
+                    <p><strong>Title:</strong> {{ flash_deal.taitle }}</p>
+                    <p><strong>Price/Discount:</strong> {{ flash_deal.price }}</p>
+                    <p><strong>URL:</strong> <a href="{{ flash_deal.url }}" target="_blank">{{ flash_deal.url }}</a></p>
+                  </div>
+                  <div class="col-md-6">
+                    {% if flash_deal.image %}<img src="{{ flash_deal.image.url }}" width="120">{% endif %}
+                  </div>
+                </div>
+              {% else %}
+                <div class="alert alert-info">
+                  No Flash Deal exists yet. Click "Create Flash Deal" to add one.
+                </div>
+              {% endif %}
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+  </section>
+</div>
+{% endblock %}

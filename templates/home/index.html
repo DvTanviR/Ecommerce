@@ -1,0 +1,157 @@
+{% extends 'main.html' %}
+
+{% block head %}
+    <meta name="description" content="Welcome to our online mobile shop. Shop for quality smartphones, chargers, and mobile accessories. Fast shipping and excellent customer service.">
+    <meta name="keywords" content="Mobile shop, smartphone, phone charger, mobile accessories, online store, buy online">
+{% endblock %}
+
+{% block content %}
+    <div class="page-wrapper">
+
+
+        <main class="main">
+            {% include 'home/sections/coversell.html' %}
+
+            {% include 'home/sections/catagory.html' %}
+
+            <div class="mb-4"></div><!-- End .mb-4 -->
+
+
+            <div class="mb-3"></div><!-- End .mb-5 -->
+
+            {% include 'home/sections/newarival.html' %}
+
+            <div class="mb-6"></div><!-- End .mb-6 -->
+
+           
+
+            <!--<div class="container">
+                <hr class="mb-0">
+                <div class="owl-carousel mt-5 mb-5 owl-simple" data-toggle="owl" 
+                    data-owl-options='{
+                        "nav": false, 
+                        "dots": false,
+                        "margin": 30,
+                        "loop": false,
+                        "responsive": {
+                            "0": {
+                                "items":2
+                            },
+                            "420": {
+                                "items":3
+                            },
+                            "600": {
+                                "items":4
+                            },
+                            "900": {
+                                "items":5
+                            },
+                            "1024": {
+                                "items":6
+                            }
+                        }
+                    }'>
+                    <a href="#" class="brand">
+                        <img src="assets/images/brands/1.png" alt="Brand Name">
+                    </a>
+
+                    <a href="#" class="brand">
+                        <img src="assets/images/brands/2.png" alt="Brand Name">
+                    </a>
+
+                    <a href="#" class="brand">
+                        <img src="assets/images/brands/3.png" alt="Brand Name">
+                    </a>
+
+                    <a href="#" class="brand">
+                        <img src="assets/images/brands/4.png" alt="Brand Name">
+                    </a>
+
+                    <a href="#" class="brand">
+                        <img src="assets/images/brands/5.png" alt="Brand Name">
+                    </a>
+
+                    <a href="#" class="brand">
+                        <img src="assets/images/brands/6.png" alt="Brand Name">
+                    </a>
+                </div>
+            </div> -->
+            
+
+          
+            {% include 'home/sections/trending.html' %}
+
+            <div class="mb-5"></div><!-- End .mb-5 -->
+
+            {% include 'home/sections/recomdation.html' %}
+
+            <div class="mb-4"></div><!-- End .mb-4 -->
+
+            <div class="container">
+                <hr class="mb-0">
+            </div><!-- End .container -->
+
+            <div class="icon-boxes-container bg-transparent">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-sm-6 col-lg-3">
+                            <div class="icon-box icon-box-side">
+                                <span class="icon-box-icon text-dark">
+                                    <i class="icon-rocket"></i>
+                                </span>
+                                <div class="icon-box-content">
+                                    <h3 class="icon-box-title">Warranty Support</h3><!-- End .icon-box-title -->
+                                    <p>On selected devices</p>
+                                </div><!-- End .icon-box-content -->
+                            </div><!-- End .icon-box -->
+                        </div><!-- End .col-sm-6 col-lg-3 -->
+
+                        <div class="col-sm-6 col-lg-3">
+                            <div class="icon-box icon-box-side">
+                                <span class="icon-box-icon text-dark">
+                                    <i class="icon-rotate-left"></i>
+                                </span>
+
+                                <div class="icon-box-content">
+                                    <h3 class="icon-box-title">Fast Delivery</h3><!-- End .icon-box-title -->
+                                    <p>Anywhere in Bangladesh</p>
+                                </div><!-- End .icon-box-content -->
+                            </div><!-- End .icon-box -->
+                        </div><!-- End .col-sm-6 col-lg-3 -->
+
+                        <div class="col-sm-6 col-lg-3">
+                            <div class="icon-box icon-box-side">
+                                <span class="icon-box-icon text-dark">
+                                    <i class="icon-info-circle"></i>
+                                </span>
+
+                                <div class="icon-box-content">
+                                    <h3 class="icon-box-title">Best Price Guarantee</h3><!-- End .icon-box-title -->
+                                    <p>Affordable mobile & accessories</p>
+                                </div><!-- End .icon-box-content -->
+                            </div><!-- End .icon-box -->
+                        </div><!-- End .col-sm-6 col-lg-3 -->
+
+                        <div class="col-sm-6 col-lg-3">
+                            <div class="icon-box icon-box-side">
+                                <span class="icon-box-icon text-dark">
+                                    <i class="icon-life-ring"></i>
+                                </span>
+
+                                <div class="icon-box-content">
+                                    <h3 class="icon-box-title">Customer Support</h3><!-- End .icon-box-title -->
+                                    <p>Call <a href="tel:+1-800-123-4567">+1-800-123-4567</a></p>
+                                </div><!-- End .icon-box-content -->
+                            </div><!-- End .icon-box -->
+                        </div><!-- End .col-sm-6 col-lg-3 -->
+                    </div><!-- End .row -->
+                </div><!-- End .container -->
+            </div><!-- End .icon-boxes-container -->
+        </main><!-- End .main -->
+
+
+    </div><!-- End .page-wrapper -->
+
+  
+    <!-- Plugins JS File -->
+{% endblock %}

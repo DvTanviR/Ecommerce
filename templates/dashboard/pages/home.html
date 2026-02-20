@@ -1,0 +1,316 @@
+{% extends 'dashboard/main.html' %}
+
+{% block content %}
+{% load static %}
+     <!-- Main Content -->
+     <div class="main-content">
+        <section class="section">
+          <div class="row ">
+            <div class="col-xl-3 col-lg-6 col-md-6 col-sm-6 col-xs-12">
+              <div class="card">
+                <div class="card-statistic-4">
+                  <div class="align-items-center justify-content-between">
+                    <div class="row ">
+                      <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6 pr-0 pt-3">
+                        <div class="card-content">
+                          <h5 class="font-15">Products</h5>
+                          <h2 class="mb-3 font-18">{{ total_products }}</h2>
+                          
+                        </div>
+                      </div>
+                      <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6 pl-0">
+                        <div class="banner-img">
+                          <img src="{% static 'dashboard/assets/img/banner/7.png' %}" alt="">
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="col-xl-3 col-lg-6 col-md-6 col-sm-6 col-xs-12">
+              <div class="card">
+                <div class="card-statistic-4">
+                  <div class="align-items-center justify-content-between">
+                    <div class="row ">
+                      <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6 pr-0 pt-3">
+                        <div class="card-content">
+                          <h5 class="font-15">Customers</h5>
+                          <h2 class="mb-3 font-18">{{ total_customers }}</h2>
+                          
+                        </div>
+                      </div>
+                      <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6 pl-0">
+                        <div class="banner-img">
+                          <img src="{% static 'dashboard/assets/img/banner/6.png' %}" alt="">
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="col-xl-3 col-lg-6 col-md-6 col-sm-6 col-xs-12">
+              <div class="card">
+                <div class="card-statistic-4">
+                  <div class="align-items-center justify-content-between">
+                    <div class="row ">
+                      <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6 pr-0 pt-3">
+                        <div class="card-content">
+                          <h5 class="font-15">Orders</h5>
+                          <h2 class="mb-3 font-18">{{ total_orders }}</h2>
+                          
+                        </div>
+                      </div>
+                      <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6 pl-0">
+                        <div class="banner-img">
+                          <img src="{% static 'dashboard/assets/img/banner/5.png' %}" alt="">
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="col-xl-3 col-lg-6 col-md-6 col-sm-6 col-xs-12">
+              <div class="card">
+                <div class="card-statistic-4">
+                  <div class="align-items-center justify-content-between">
+                    <div class="row ">
+                      <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6 pr-0 pt-3">
+                        <div class="card-content">
+                          <h5 class="font-15">Revenue</h5>
+                          <h2 class="mb-3 font-18">৳{{ total_revenue }}</h2>
+                          
+                        </div>
+                      </div>
+                      <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6 pl-0">
+                        <div class="banner-img">
+                          <img src="{% static 'dashboard/assets/img/banner/8.png' %}" alt="">
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section class="section">
+            <div class="row">
+                <div class="col-12">
+                  <div class="card">
+                    <div class="card-header">
+                      <h4>Latest Orders</h4>
+                      <div class="card-header-form">
+                        <form method="get" action="{% url 'orders' %}">
+                          <div class="input-group">
+                            <input type="text" name="q" class="form-control" placeholder="Search" value="{{ request.GET.q }}">
+                            <div class="input-group-btn">
+                              <button class="btn btn-primary"><i class="fas fa-search"></i></button>
+                            </div>
+                          </div>
+                        </form>
+                        <div class="dropdown d-inline mr-2">
+                          <button class="btn btn-primary dropdown-toggle" type="button" id="dropdownMenuButton"
+                            data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            Filter By Status
+                          </button>
+                          <div class="dropdown-menu">
+                            <a class="dropdown-item" href="{% url 'orders' %}?status=process">Process</a>
+                            <a class="dropdown-item" href="{% url 'orders' %}?status=shepping">Shipping</a>
+                            <a class="dropdown-item" href="{% url 'orders' %}?status=done">Done</a>
+                          </div>
+                        </div>
+                      </div>
+                      
+                    </div>
+                    <div class="card-body p-0">
+                      <div class="table-responsive">
+                        <table class="table table-striped">
+                          <tr>
+                            <th>Order ID</th>
+                            <th>Product</th>
+                            <th>Name</th>
+                            <th>Date</th>
+                            <th>Status</th>
+                            <th>Action</th>
+                          </tr>
+                          {% if orders %}
+                          {% for item in orders %}
+                          <tr>
+                            <td>#{{item.id}}</td>
+                            <td>{{item.product.taitle}}</td>
+                            <td>{{item.name}}</td>
+                            <td>{{item.date}}</td>
+                            <td>
+                              <div class="badge badge-success">{{item.status}}</div>
+                            </td>
+                            <td>
+                              <a href="{% url 'order_details' 'regular' item.id %}" class="btn btn-primary">Details</a>
+                              <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#deleteModal{{ item.id }}">
+                                Delete</button>
+                            </td>
+                          </tr>
+                          {% endfor %}
+                         
+                          {% else %}
+                          <tr>
+                            <td colspan="6" class="text-center">No orders found</td>
+                          </tr>
+                          {% endif %}
+                        </table>
+                        <div class="card-footer text-left">
+                            <a href="{% url 'orders' %}" class="btn btn-primary">View all orders</a>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+        </section>
+
+        <section class="section">
+            <div class="section-body">
+              <!-- add content here -->
+  
+              <div class="row">
+                <div class="col-12">
+                  <div class="card">
+                    <div class="card-header">
+                      <h4>Latest Products</h4>
+                      <div class="card-header-form">
+                        <form method="get" action="{% url 'products' %}">
+                          <div class="input-group">
+                            <input type="text" name="q" class="form-control" placeholder="Search" value="{{ request.GET.q }}">
+                            <div class="input-group-btn">
+                              <button class="btn btn-primary"><i class="fas fa-search"></i></button>
+                            </div>
+                          </div>
+                        </form>
+                      </div>
+                     
+                    </div>
+                    <div class="card-body p-0">
+                      <div class="table-responsive">
+                        <table class="table table-striped">
+                          <tr>
+                            <th>Product</th>
+                            <th>Name</th>
+                            <th>Catagory</th>
+                            <th>Upload Date</th>
+                            <th>Price</th>
+                            <th>Stock</th>
+                            <th>Action</th>
+                          </tr>
+                          {% if products %}
+                          {% for item in products %}
+                          <tr>
+                            <td>
+                              <img alt="image" src="{{item.image.url}}" class="rounded" width="35"
+                                data-toggle="tooltip" title="Wildan Ahdian">
+                            </td>
+                            <td>{{item.taitle}}</td>
+                            <td>{{item.catagory}}</td>
+                            <td>{{item.pub_date}}</td>
+                            <td>{{item.price}}</td>
+                            <td>
+                              <div class="badge badge-success">10</div>
+                            </td>
+                            <td>
+                              <a href="{% url 'edit_product' item.id %}" class="btn btn-primary">Edit</a>
+                              <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#deleteModal{{ item.id }}">
+                                Delete</button>
+                            </td>
+                          </tr>
+                          
+                          {% endfor %}
+                          
+                          {% else %}
+                          <tr>
+                            <td colspan="7" class="text-center">No products found</td>
+                          </tr>
+                          {% endif %}
+                          
+                        </table>
+                        <div class="card-footer text-left">
+                            <a href="{% url 'products' %}" class="btn btn-primary">View all products</a>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+  
+            </div>
+          </section>
+
+          <section class="section">
+            <div class="section-body">
+              <!-- add content here -->
+  
+              <div class="row">
+                <div class="col-12">
+                  <div class="card">
+                    <div class="card-header">
+                      <h4>Latest Customers</h4>
+                      <div class="card-header-form">
+                        <form method="get" action="{% url 'customers' %}">
+                          <div class="input-group">
+                            <input type="text" name="q" class="form-control" placeholder="Search" value="{{ request.GET.q }}">
+                            <div class="input-group-btn">
+                              <button class="btn btn-primary"><i class="fas fa-search"></i></button>
+                            </div>
+                          </div>
+                        </form>
+                      </div>
+                    </div>
+                    <div class="card-body p-0">
+                      <div class="table-responsive">
+                        <table class="table table-striped">
+                          <tr>
+                            <th>ID</th>
+                            <th>Name</th>
+                            <th>Date Joined</th>
+                            <th>Last Login</th>
+                            <th>Action</th>
+                          </tr>
+                          {% if customers %}
+                          {% for item in customers %}
+                          <tr>
+                            <td>#{{item.id}}</td>
+                            <td>{{item.name}}</td>
+                            <td>{{item.date_joined}}</td>
+                            <td>
+                              <div class="badge badge-success">{{ item.last_login|timesince }} ago</div>
+                            </td>
+                            <td>
+                              <a href="{% url 'customer_details' item.id %}" class="btn btn-primary">Details</a>
+                              <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#deleteModal{{ item.id }}">
+                                Delete</button>
+                            </td>
+                          </tr>
+                          {% endfor %}
+                          
+                          {% else %}
+                          <tr>
+                            <td colspan="5" class="text-center">No customers found</td>
+                          </tr>
+                          {% endif %}
+                        </table>
+                        <div class="card-footer text-left">
+                            <a href="{% url 'customers' %}" class="btn btn-primary">View all customers</a>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+  
+            </div>
+          </section>
+    </div>   
+{% endblock %}
+
+

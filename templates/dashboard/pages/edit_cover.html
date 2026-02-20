@@ -1,0 +1,41 @@
+
+{% extends 'dashboard/main.html' %}
+{% load static %}
+
+{% block content %}
+
+<div class="main-content">
+  <section class="section">
+    <div class="section-body">
+      <div class="row">
+        <div class="col-12">
+          <div class="card">
+            <div class="card-header"><h4>Edit CoverSell</h4></div>
+            <div class="card-body">
+              <form method="post" enctype="multipart/form-data">
+                {% csrf_token %}
+                {{ form.as_p }}
+                <button type="submit" class="btn btn-primary">Update Cover</button>
+              </form>
+              <hr>
+              <h5>Current Images</h5>
+              <div class="row">
+                <div class="col-md-6">
+                  <label>Main Image:</label><br>
+                  {% if cover.image %}<img src="{{ cover.image.url }}" width="120">{% else %}<span>No image</span>{% endif %}
+                </div>
+                <div class="col-md-6">
+                  <label>Mobile Image:</label><br>
+                  {% if cover.mobile_image %}<img src="{{ cover.mobile_image.url }}" width="120">{% else %}<span>No image</span>{% endif %}
+                </div>
+              </div>
+              <hr>
+              <p><strong>URL:</strong> {{ cover.url }}</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+</div>
+{% endblock %}

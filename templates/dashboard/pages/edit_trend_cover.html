@@ -1,0 +1,31 @@
+{% extends 'dashboard/main.html' %}
+{% load static %}
+
+{% block content %}
+
+<div class="main-content">
+	<section class="section">
+		<div class="section-body">
+			<div class="row">
+				<div class="col-12">
+					<div class="card">
+						<div class="card-header"><h4>Edit TrendCover</h4></div>
+						<div class="card-body">
+							<form method="post" enctype="multipart/form-data">
+								{% csrf_token %}
+								{{ form.as_p }}
+								<button type="submit" class="btn btn-primary">Update Trend Cover</button>
+							</form>
+							<hr>
+							<h5>Current Trend Cover</h5>
+							<p><strong>Link:</strong> {{ trend_cover.link }}</p>
+							{% if trend_cover.image %}<img src="{{ trend_cover.image.url }}" width="120">{% else %}<span>No image</span>{% endif %}
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</section>
+</div>
+
+{% endblock %}

@@ -1,0 +1,128 @@
+{% load static %}
+
+<nav class="navbar navbar-expand-lg main-navbar sticky">
+    <div class="form-inline mr-auto">
+      <ul class="navbar-nav mr-3">
+        <li><a href="#" data-toggle="sidebar" class="nav-link nav-link-lg
+                                collapse-btn"> <i data-feather="align-justify"></i></a></li>
+        <li><a href="#" class="nav-link nav-link-lg fullscreen-btn">
+            <i data-feather="maximize"></i>
+          </a></li>
+        <li>
+          <form class="form-inline mr-auto" method="get" action="{% url 'products' %}">
+            <div class="search-element">
+              <input class="form-control" type="search" name="q" placeholder="Search" aria-label="Search" data-width="200">
+              <button class="btn" type="submit">
+                <i class="fas fa-search"></i>
+              </button>
+            </div>
+          </form>
+        </li>
+      </ul>
+    </div>
+    <ul class="navbar-nav navbar-right">
+      <li class="dropdown dropdown-list-toggle"><a href="#" data-toggle="dropdown"
+          class="nav-link nav-link-lg message-toggle"><i data-feather="mail"></i>
+          <span class="badge headerBadge1">
+          0   </span> </a>
+        <div class="dropdown-menu dropdown-list dropdown-menu-right pullDown">
+          <div class="dropdown-header">
+            Messages
+            <div class="float-right">
+              <a href="#">Mark All As Read</a>
+            </div>
+          </div>
+          
+          <div class="dropdown-footer text-center">
+            <a href="#">View All <i class="fas fa-chevron-right"></i></a>
+          </div>
+        </div>
+      </li>
+      <li class="dropdown dropdown-list-toggle"><a href="#" data-toggle="dropdown"
+          class="nav-link notification-toggle nav-link-lg"><i data-feather="bell" class="bell"></i>
+        </a>
+        <div class="dropdown-menu dropdown-list dropdown-menu-right pullDown">
+          <div class="dropdown-header">
+            Notifications
+            <div class="float-right">
+              <a href="#">Mark All As Read</a>
+            </div>
+          </div>
+        
+          <div class="dropdown-footer text-center">
+            <a href="#">View All <i class="fas fa-chevron-right"></i></a>
+          </div>
+        </div>
+      </li>
+      <li class="dropdown"><a href="#" data-toggle="dropdown"
+          class="nav-link dropdown-toggle nav-link-lg nav-link-user"> <img alt="image" src="{% static 'dashboard/assets/img/user.png' %}"
+            class="user-img-radious-style"> <span class="d-sm-none d-lg-inline-block"></span></a>
+        <div class="dropdown-menu dropdown-menu-right pullDown">
+          <div class="dropdown-title">Welcome Admin</div>
+          <a href="" class="dropdown-item has-icon"> <i class="far
+                                    fa-user"></i> Profile
+          </a> <a href="" class="dropdown-item has-icon"> <i class="fas fa-bolt"></i>
+            Activities
+          </a> <a href="" class="dropdown-item has-icon"> <i class="fas fa-cog"></i>
+            Settings
+          </a>
+          <div class="dropdown-divider"></div>
+          <a href="{% url 'logout' %}" class="dropdown-item has-icon text-danger"> <i class="fas fa-sign-out-alt"></i>
+            Logout
+          </a>
+        </div>
+      </li>
+    </ul>
+  </nav>
+
+  <div class="main-sidebar sidebar-style-2">
+    <aside id="sidebar-wrapper">
+      <div class="sidebar-brand">
+        <a href="{% url 'dashboard' %}"> <img alt="image" src="{% static 'assets/img/logo.png' %}" class="header-logo" /> <span
+            class="logo-name">YourBrand</span>
+        </a>
+      </div>
+      <ul class="sidebar-menu">
+        <li class="menu-header">Main</li>
+        <li class="dropdown {% if page == 'home' %}active{% endif %}">
+          <a href="{% url 'dashboard' %}" class="nav-link"><i data-feather="monitor"></i><span>Dashboard</span></a>
+        </li>
+        <li class="dropdown {% if page == 'categories' %}active{% endif %}">
+          <a href="{% url 'categories' %}" class="nav-link"><i data-feather="grid"></i><span>Categories</span></a>
+        </li>
+        <li class="dropdown {% if page == 'products' %}active{% endif %}">
+          <a href="{% url 'products' %}" class="nav-link"><i data-feather="shopping-bag"></i><span>Products</span></a>
+        </li>
+        <li class="dropdown {% if page == 'orders' %}active{% endif %}">
+          <a href="#" class="nav-link has-dropdown"><i data-feather="truck"></i><span>Orders</span></a>
+          <ul class="dropdown-menu">
+            <li><a class="nav-link" href="{% url 'orders' %}">All Orders</a></li>
+            <li><a class="nav-link" href="{% url 'orders' %}?type=regular">Regular Orders</a></li>
+            <li><a class="nav-link" href="{% url 'orders' %}?type=card">Card Checkouts</a></li>
+          </ul>
+        </li>
+        <li class="dropdown {% if page == 'customers' %}active{% endif %}">
+          <a href="{% url 'customers' %}" class="nav-link"><i data-feather="users"></i><span>Customers</span></a>
+        </li>
+        <li class="dropdown {% if page == 'template' %}active{% endif %}">
+          <a href="{% url 'template' %}" class="nav-link"><i data-feather="file"></i><span>Template</span></a>
+        </li>
+
+        <li class="menu-header">Blog Management</li>
+        <li class="dropdown {% if page == 'blogs' %}active{% endif %}">
+          <a href="{% url 'blogs' %}" class="nav-link"><i data-feather="edit-3"></i><span>Blog Posts</span></a>
+        </li>
+        <li class="dropdown {% if page == 'add_blog' %}active{% endif %}">
+          <a href="{% url 'add_blog' %}" class="nav-link"><i data-feather="plus-circle"></i><span>Add Blog Post</span></a>
+        </li>
+        <li class="dropdown {% if page == 'comments' %}active{% endif %}">
+          <a href="{% url 'comments' %}" class="nav-link"><i data-feather="message-square"></i><span>Comments</span></a>
+        </li>
+
+        <li class="menu-header">Reviews Management</li>
+        <li class="dropdown {% if page == 'reviews' %}active{% endif %}">
+          <a href="{% url 'dashboard_reviews' %}" class="nav-link"><i data-feather="star"></i><span>Product Reviews</span></a>
+        </li>
+      </ul>
+    </aside>
+  </div>

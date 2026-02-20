@@ -1,0 +1,205 @@
+{% extends 'main.html' %}
+
+{% block content %}
+{% load custom_tag %}
+    <main class="main">
+        <nav aria-label="breadcrumb" class="breadcrumb-nav">
+            <div class="container">
+                <ol class="breadcrumb">
+                    <li class="breadcrumb-item"><a href="{% url 'home' %}">Home</a></li>
+                    <li class="breadcrumb-item"><a href="{% url 'shop' %}">Shop</a></li>
+                    <li class="breadcrumb-item active" aria-current="page">Shopping Cart</li>
+                </ol>
+            </div>
+        </nav>
+
+        <div class="page-content">
+            <div class="cart">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-lg-9">
+                            <style>
+                                @media (max-width: 767px) {
+                                    .table-mobile {
+                                        width: 100%;
+                                        border: none;
+                                    }
+                                    .table-mobile tr {
+                                        display: block;
+                                        margin-bottom: 1.5rem;
+                                        background: #fff;
+                                        border-radius: 10px;
+                                        box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+                                        padding: 1rem;
+                                    }
+                                    .table-mobile .product-col {
+                                        display: flex;
+                                        align-items: center;
+                                        margin-bottom: 1rem;
+                                    }
+                                    .table-mobile .product-media {
+                                        width: 80px;
+                                        height: 80px;
+                                        margin-right: 1rem;
+                                        border-radius: 8px;
+                                        overflow: hidden;
+                                        background: #f8f8f8;
+                                        display: flex;
+                                        align-items: center;
+                                        justify-content: center;
+                                    }
+                                    .table-mobile .product-media img {
+                                        max-width: 100%;
+                                        max-height: 100%;
+                                        object-fit: contain;
+                                    }
+                                    .table-mobile .product-title {
+                                        font-size: 1rem;
+                                        font-weight: 600;
+                                        margin: 0;
+                                    }
+                                    .table-mobile .cart-details {
+                                        display: flex;
+                                        flex-direction: column;
+                                        gap: 0.5rem;
+                                        align-items: flex-start;
+                                        padding: 0.5rem 0;
+                                    }
+                                    .table-mobile .price-col,
+                                    .table-mobile .size-col,
+                                    .table-mobile .quantity-col {
+                                        font-size: 0.95rem;
+                                        background: #f3f3f3;
+                                        border-radius: 6px;
+                                        padding: 0.3rem 0.7rem;
+                                        margin-bottom: 0.2rem;
+                                    }
+                                    .table-mobile .remove-col {
+                                        text-align: right;
+                                        padding-top: 0.5rem;
+                                    }
+                                    .table-mobile .btn-remove {
+                                        background: #ffeded;
+                                        border-radius: 50%;
+                                        padding: 0.5rem;
+                                        color: #d00;
+                                        font-size: 1.2rem;
+                                        border: none;
+                                    }
+                                    .table-mobile thead {
+                                        display: none;
+                                    }
+                                }
+                            </style>
+                            <table class="table table-cart table-mobile">
+                                <thead>
+                                    <tr>
+                                        <th>Product</th>
+                                        <th>Price</th>
+                                        <th>Size</th>
+                                        <th>Quantity</th>
+                                        <!-- <th>Total</th> -->
+                                        <th></th>
+                                    </tr>
+                                </thead>
+
+                                <tbody>
+                                {% if is_authenticated %}
+                                    {% for carts in cart %}
+                                    <tr>
+                                        <td class="product-col">
+                                            <div class="product">
+                                                <figure class="product-media">
+                                                    <a href="{% url 'product' carts.product.slug %}">
+                                                        {% with main_image=carts.product.productimage_set.first %}
+                                                        {% if main_image %}
+                                                        <img class="lazy" data-src="{{ main_image.image.url }}" alt="{{ carts.product.taitle }}">
+                                                        {% endif %}
+                                                        {% endwith %}
+                                                    </a>
+                                                </figure>
+                                                <h3 class="product-title">
+                                                    <a href="{% url 'product' carts.product.slug %}">{{carts.product.taitle}}</a>
+                                                </h3>
+                                            </div>
+                                        </td>
+                                        <td colspan="4" class="cart-details">
+                                            <span class="price-col">৳{{carts.product.price}} </span>
+                                            <span class="size-col">{{carts.size}}</span>
+                                            <span class="quantity-col">{{carts.quantity}}</span>
+                                            <!-- <span class="total-col">৳{{carts.product.price}} </span> -->
+                                        </td>
+                                        <td class="remove-col">
+                                            <a href="{% url 'delete_cart' carts.id %}" class="btn-remove"><i class="icon-close"></i></a>
+                                        </td>
+                                    </tr>
+                                    {% endfor %}
+                                {% else %}
+                                    {% for item in cart %}
+                                    <tr>
+                                        <td class="product-col">
+                                            <div class="product">
+                                                <figure class="product-media" style="text-align: left;">
+                                                    <a href="{% url 'product' item.slug %}">
+                                                        {% if item.image %}
+                                                        <img class="lazy" data-src="{{ item.image }}" alt="{{ item.title }}">
+                                                        {% endif %}
+                                                    </a>
+                                                </figure>
+                                                <h3 class="product-title">
+                                                    <a href="{% url 'product' item.slug %}">{{item.title}}</a>
+                                                </h3>
+                                            </div>
+                                        </td>
+                                        <td colspan="4" class="cart-details">
+											<span class="price-col" style="margin-right: 1rem;">৳{{item.price}}</span>
+											<span class="size-col" style="margin-right: 1rem;">{{item.size}}</span>
+											<span class="quantity-col" style="margin-right: 1rem;">{{item.quantity}}</span>
+											
+                                        </td>
+                                        <td class="remove-col">
+                                            <a href="{% url 'delete_cart' item.id %}" class="btn-remove"><i class="icon-close"></i></a>
+                                        </td>
+                                    </tr>
+                                    {% endfor %}
+                                {% endif %}
+                                </tbody>
+                            </table>
+
+                            <div class="cart-bottom">
+                                
+                                <div class="cart-total" style="margin-bottom: 1.5rem; " >
+                                    <span>Total:</span>
+                                    <span class="cart-total-price">৳{{cart_total}} Tk</span>
+                                </div>
+                                <div class="cart-buttons checkout-align">
+                                    {% if cart_total > 0 %}
+                                    <a href="{% url 'cart_checkout' %}" class="btn btn-outline-primary-2">
+                                        <span>PROCEED TO CHECKOUT</span>
+                                        <i class="icon-long-arrow-right"></i>
+                                    </a>
+                                    {% endif %}
+                                </div>
+                            </div>
+                            <style>
+                                .checkout-align {
+                                    display: flex;
+                                    justify-content: flex-end;
+                                }
+                                @media (max-width: 767px) {
+                                    .checkout-align {
+                                        justify-content: center !important;
+                                    }
+                                    .cart-bottom .cart-total {
+                                        flex-direction: column !important;
+                                        align-items: flex-start !important;
+                                    }
+                                }
+                            </style>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+{% endblock %}

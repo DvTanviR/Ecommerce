@@ -1,0 +1,14 @@
+asgiref
+dj-database-url
+django-ckeditor
+python-dotenv
+django-js-asset
+django-mathfilters
+django-on-heroku
+gunicorn
+whitenoise
+django-social-share
+django-storages
+dj-database-url
+Pillow
+django-multiselectfield

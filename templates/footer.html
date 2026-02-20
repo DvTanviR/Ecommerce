@@ -1,0 +1,78 @@
+{% load static %}
+
+{% block head %}
+    <meta name="description" content="Contact us for support with mobile products and accessories. Quality items and great customer service.">
+    <meta name="keywords" content="Mobile shop, smartphone, phone charger, mobile accessories, customer support, online store">
+{% endblock %}
+
+<footer class="footer">
+    
+    <div class="footer-middle">
+        <div class="container">
+            <div class="row">
+                <div class="col-sm-6 col-lg-3">
+                    <div class="widget widget-about">
+                        <img src="{% static 'assets/img/logo.png' %}" class="footer-logo" alt="Logo">
+                        <p>Your trusted online store for quality smartphones, accessories, and mobile products. Shop with confidence.</p>
+
+                        <div class="widget-call">
+                            <i class="icon-phone"></i>
+                            Got Question? Call us 24/7
+                            <a href="tel:+1-800-123-4567">+1-800-123-4567</a>
+                        </div><!-- End .widget-call -->
+                    </div><!-- End .widget about-widget -->
+                </div><!-- End .col-sm-6 col-lg-3 -->
+
+                <div class="col-sm-6 col-lg-3">
+                    <div class="widget">
+                        <h4 class="widget-title">Useful Links</h4><!-- End .widget-title -->
+
+                        <ul class="widget-list">
+                            <li><a href="{% url 'about' %}">About Us</a></li>
+                            <li><a href="{% url 'blog' %}">Blog</a></li>
+                            <li><a href="{% url 'contact' %}">Contact us</a></li>
+                            <li><a href="{% url 'account' %}">My account</a></li>
+                            <li><a href="#">Facebook Page</a></li>
+                        </ul><!-- End .widget-list -->
+                    </div><!-- End .widget -->
+                </div><!-- End .col-sm-6 col-lg-3 -->
+
+                <div class="col-sm-6 col-lg-3">
+                    <div class="widget">
+                        <h4 class="widget-title">Customer Service</h4><!-- End .widget-title -->
+
+                        <ul class="widget-list">
+                            <li><a href="{% url 'terms' %}">Terms and conditions</a></li>
+                            <li><a href="{% url 'privecy' %}">Privacy Policy</a></li>
+                        </ul><!-- End .widget-list -->
+                    </div><!-- End .widget -->
+                </div><!-- End .col-sm-6 col-lg-3 -->
+
+                <div class="col-sm-6 col-lg-3">
+                    <div class="widget">
+                        <h4 class="widget-title">My Account</h4><!-- End .widget-title -->
+
+                        <ul class="widget-list">
+                            <li><a href="{% url 'login' %}">Sign In</a></li>
+                            <li><a href="{% url 'cart' %}">View Cart</a></li>
+                            <li><a href="{% url 'wishlist' %}">My Wishlist</a></li>
+                            <li><a href="{% url 'account' %}#tab-orders">Track My Order</a></li>
+                            <li><a href="{% url 'account' %}">Dashboard</a></li>
+                            <li><a href="#">Help (Facebook)</a></li>
+
+                        </ul><!-- End .widget-list -->
+                    </div><!-- End .widget -->
+                </div><!-- End .col-sm-6 col-lg-3 -->
+            </div><!-- End .row -->
+        </div><!-- End .container -->
+    </div><!-- End .footer-middle -->
+
+    <div class="footer-bottom">
+        <div class="container">
+            <p class="footer-copyright">Copyright ©2025 Your Company. All Rights Reserved. Built with 💝.</p><!-- End .footer-copyright -->
+            <figure class="footer-payments">
+                
+            </figure><!-- End .footer-payments -->
+        </div><!-- End .container -->
+    </div><!-- End .footer-bottom -->
+</footer><!-- End .footer -->

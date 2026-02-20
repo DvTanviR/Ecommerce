@@ -1,0 +1,308 @@
+{% load custom_tag %}
+{% load static %}
+{% load mathfilters %}
+   <div class="bg-light pt-5 pb-6">
+                <div class="container trending-products">
+                    <div class="heading heading-flex mb-3">
+                        <div class="heading-left">
+                            <h2 class="title">Trending Products</h2><!-- End .title -->
+                        </div><!-- End .heading-left -->
+
+                       <div class="heading-right">
+                            <ul class="nav nav-pills nav-border-anim justify-content-center" role="tablist">
+                                <li class="nav-item">
+                                    <a class="nav-link active" id="trending-top-link" data-toggle="tab" href="#trending-top-tab" role="tab" aria-controls="trending-top-tab" aria-selected="true">Top Rated</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link" id="trending-best-link" data-toggle="tab" href="#trending-best-tab" role="tab" aria-controls="trending-best-tab" aria-selected="false">Best Selling</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link" id="trending-sale-link" data-toggle="tab" href="#trending-sale-tab" role="tab" aria-controls="trending-sale-tab" aria-selected="false">On Sale</a>
+                                </li>
+                            </ul>
+                       </div><!-- End .heading-right -->
+                    </div><!-- End .heading -->
+
+                    <div class="row">
+
+
+                        {% if trendcover %}
+                        <div class="col-xl-5col d-none d-xl-block">
+                            <div class="banner" style="height: 100% !important;">
+                                <a href="{{trendcover.link}}">
+                                    <img class="lazy" data-src="{{trendcover.image.url}}">
+                                </a>
+                            </div><!-- End .banner -->
+                        </div><!-- End .col-xl-5col -->
+                        {% endif %}
+
+                        <div class="col-xl-4-5col" id="baner-end" >
+                            <div class="tab-content tab-content-carousel just-action-icons-sm">
+
+
+                                <div class="tab-pane p-0 fade show active" id="trending-top-tab" role="tabpanel" aria-labelledby="trending-top-link">
+                                    <div class="owl-carousel owl-full carousel-equal-height carousel-with-shadow" data-toggle="owl" 
+                                        data-owl-options='{
+                                            "nav": true, 
+                                            "dots": false,
+                                            "margin": 20,
+                                            "loop": false,
+                                            "responsive": {
+                                                "0": {
+                                                    "items":2
+                                                },
+                                                "480": {
+                                                    "items":2
+                                                },
+                                                "768": {
+                                                    "items":3
+                                                },
+                                                "992": {
+                                                    "items":4
+                                                }
+                                            }
+                                        }'>
+
+
+                                        {% for product in toptrend %}
+
+
+                                         {% ifchanged product.id %}
+                                        <div class="product product-2">
+                                            <figure class="product-media">
+                                                {% if product.WasPrice %}
+                                        <span class="product-label label-sale">
+                                        {{product.WasPrice|persentis:product.price}}% off</span>
+                                        {% endif %}
+                                                <a href="{% url 'product' product.slug %}">
+                                                    {% with main_image=product.productimage_set.first %}
+                                                    {% if main_image %}
+                                                    <img class="lazy" data-src="{{ main_image.image.url }}" alt="{{ product.taitle }}">
+                                                    {% endif %}
+                                                    {% endwith %}
+                                                </a>
+
+                                                <div class="product-action-vertical">
+                                                    <a href="{% url 'add_wishlist' product.slug %}" class="btn-product-icon btn-wishlist" title="Add to wishlist"></a>
+                                                </div><!-- End .product-action -->
+
+                                                <div class="product-action">
+                                                    <a href="{% url 'add_cart' product.slug %}" class="btn-product btn-cart" title="Add to cart"><span>add to cart</span></a>
+                                                    <!-- <a href="popup/quickView.html" class="btn-product btn-quickview" title="Quick view"><span>quick view</span></a> -->
+                                                </div><!-- End .product-action -->
+                                            </figure><!-- End .product-media -->
+
+                                            <div class="product-body">
+                                                <div class="product-cat">
+                                                    <a href="shop/?q={{product.catagory}}">{{product.catagory}}</a>
+                                                </div><!-- End .product-cat -->
+                                                <h3 class="product-title"><a href="{% url 'product' product.slug %}">{{product.taitle}}</a></h3><!-- End .product-title -->
+                                               <div class="product-price">
+                                                    <span class="new-price">৳{{product.price}} Tk</span>
+                                                    {% if product.WasPrice %}
+                                                    <span class="old-price" style="text-decoration: line-through;">৳{{product.WasPrice}} Tk</span>
+                                                    {% endif %}
+                                                </div><!-- End .product-price -->
+                                                <div class="ratings-container">
+                                                    <div class="ratings">
+                                                        <div class="ratings-val" style="width:{% if product.total_reviews == 0 %}0{% else %}{{product.average_rating|mul:20}}{%endif%}%;"></div><!-- End .ratings-val -->
+                                                    </div><!-- End .ratings -->
+                                                    <span class="ratings-text">({{ product.total_reviews }} Reviews)</span>
+                                                </div><!-- End .ratings-container -->
+                                               
+                                                
+
+                                                <!-- <div class="product-nav product-nav-dots">
+                                                    <a href="#" style="background: #69b4ff;"><span class="sr-only">Color name</span></a>
+                                                    <a href="#" style="background: #ff887f;"><span class="sr-only">Color name</span></a>
+                                                    <a href="#" class="active" style="background: #333333;"><span class="sr-only">Color name</span></a>
+                                                </div>End .product-nav -->
+                                            </div><!-- End .product-body -->
+                                        </div><!-- End .product -->
+
+                                         {% endifchanged %}
+
+                                        {% endfor %}
+
+
+
+
+                                    </div><!-- End .owl-carousel -->
+                                </div><!-- .End .tab-pane -->
+
+
+                                <div class="tab-pane p-0 fade" id="trending-best-tab" role="tabpanel" aria-labelledby="trending-best-link">
+                                    <div class="owl-carousel owl-full carousel-equal-height carousel-with-shadow" data-toggle="owl" 
+                                        data-owl-options='{
+                                            "nav": true, 
+                                            "dots": false,
+                                            "margin": 20,
+                                            "loop": false,
+                                            "responsive": {
+                                                "0": {
+                                                    "items":2
+                                                },
+                                                "480": {
+                                                    "items":2
+                                                },
+                                                "768": {
+                                                    "items":3
+                                                },
+                                                "992": {
+                                                    "items":4
+                                                }
+                                            }
+                                        }'>
+                                        {% for product in bestsell %}
+
+
+                                        <div class="product product-2">
+                                            <figure class="product-media">
+                                                {% if product.WasPrice %}
+                                        <span class="product-label label-sale">
+                                        {{product.WasPrice|persentis:product.price}}% off</span>
+                                        {% endif %}
+                                                <a href="{% url 'product' product.slug %}">
+                                                    {% with main_image=product.productimage_set.first %}
+                                                    {% if main_image %}
+                                                    <img class="lazy" data-src="{{ main_image.image.url }}" alt="{{ product.taitle }}">
+                                                    {% endif %}
+                                                    {% endwith %}
+                                                </a>
+
+                                                <div class="product-action-vertical">
+                                                    <a href="{% url 'add_wishlist' product.slug %}" class="btn-product-icon btn-wishlist" title="Add to wishlist"></a>
+                                                </div><!-- End .product-action -->
+
+                                                <div class="product-action">
+                                                    <a href="{% url 'add_cart' product.slug %}" class="btn-product btn-cart" title="Add to cart"><span>add to cart</span></a>
+                                                    <!-- <a href="popup/quickView.html" class="btn-product btn-quickview" title="Quick view"><span>quick view</span></a> -->
+                                                </div><!-- End .product-action -->
+                                            </figure><!-- End .product-media -->
+
+                                            <div class="product-body">
+                                                <div class="product-cat">
+                                                    <a href="shop/?q={{product.catagory}}">{{product.catagory}}</a>
+                                                </div><!-- End .product-cat -->
+                                                <h3 class="product-title"><a href="{% url 'product' product.slug %}">{{product.taitle}}</a></h3><!-- End .product-title -->
+                                               <div class="product-price">
+                                                    <span class="new-price">    ${{product.price}}</span>
+                                                    {% if product.WasPrice %}
+                                                    <span class="old-price" style="text-decoration: line-through;">${{product.WasPrice}}</span>
+                                                    {% endif %}
+                                                </div><!-- End .product-price -->
+                                                <div class="ratings-container">
+                                                    <div class="ratings">
+                                                        <div class="ratings-val" style="width:{% if product.total_reviews == 0 %}0{% else %}{{product.average_rating|mul:20}}{%endif%}%;"></div><!-- End .ratings-val -->
+                                                    </div><!-- End .ratings -->
+                                                    <span class="ratings-text">({{ product.total_reviews }} Reviews)</span>
+                                                </div><!-- End .ratings-container -->
+
+                                                <!-- <div class="product-nav product-nav-dots">
+                                                    <a href="#" style="background: #69b4ff;"><span class="sr-only">Color name</span></a>
+                                                    <a href="#" style="background: #ff887f;"><span class="sr-only">Color name</span></a>
+                                                    <a href="#" class="active" style="background: #333333;"><span class="sr-only">Color name</span></a>
+                                                </div>End .product-nav -->
+                                            </div><!-- End .product-body -->
+                                        </div><!-- End .product -->
+
+                                        {% endfor %}
+
+                                    </div><!-- End .owl-carousel -->
+                                </div><!-- .End .tab-pane -->
+
+
+                                <div class="tab-pane p-0 fade" id="trending-sale-tab" role="tabpanel" aria-labelledby="trending-sale-link">
+                                    <div class="owl-carousel owl-full carousel-equal-height carousel-with-shadow" data-toggle="owl" 
+                                        data-owl-options='{
+                                            "nav": true, 
+                                            "dots": false,
+                                            "margin": 20,
+                                            "loop": false,
+                                            "responsive": {
+                                                "0": {
+                                                    "items":2
+                                                },
+                                                "480": {
+                                                    "items":2
+                                                },
+                                                "768": {
+                                                    "items":3
+                                                },
+                                                "992": {
+                                                    "items":4
+                                                }
+                                            }
+                                        }'>
+
+
+                                        {% for product in sells %}
+
+                                        {% if product.WasPrice %}
+
+                                        
+                                        <div class="product product-2">
+                                            <figure class="product-media">
+                                                {% if product.WasPrice %}
+                                                <span class="product-label label-circle label-top">Sale</span>
+                                                
+                                                <span class="product-label label-circle label-sale">
+                                        {{product.WasPrice|persentis:product.price}}% off</span>
+                                                {% endif %}
+                                                <a href="{% url 'product' product.slug %}">
+                                                    {% with main_image=product.productimage_set.first %}
+                            {% if main_image %}
+                            <img class="lazy" data-src="{{ main_image.image.url }}" alt="{{ product.taitle }}">
+                            {% endif %}
+                            {% endwith %}
+                                                </a>
+
+                                                <div class="product-action-vertical">
+                                                    <a href="{% url 'add_wishlist' product.slug %}" class="btn-product-icon btn-wishlist" title="Add to wishlist"></a>
+                                                </div><!-- End .product-action -->
+
+                                                <div class="product-action">
+                                                    <a href="{% url 'add_cart' product.slug %}" class="btn-product btn-cart" title="Add to cart"><span>add to cart</span></a>
+                                                    <!-- <a href="popup/quickView.html" class="btn-product btn-quickview" title="Quick view"><span>quick view</span></a> -->
+                                                </div><!-- End .product-action -->
+                                            </figure><!-- End .product-media -->
+
+                                            <div class="product-body">
+                                                <div class="product-cat">
+                                                    <a href="shop/?q={{product.catagory}}">{{product.catagory}}</a>
+                                                </div><!-- End .product-cat -->
+                                                <h3 class="product-title"><a href="{% url 'product' product.slug %}">{{product.taitle}}</a></h3><!-- End .product-title -->
+                                               <div class="product-price">
+                                                    <span class="new-price">    ${{product.price}}</span>
+                                                    {% if product.WasPrice %}
+                                                    <span class="old-price" style="text-decoration: line-through;">${{product.WasPrice}}</span>
+                                                    {% endif %}
+                                                </div><!-- End .product-price -->
+                                                <div class="ratings-container">
+                                                    <div class="ratings">
+                                                        <div class="ratings-val" style="width:{% if product.total_reviews == 0 %}0{% else %}{{product.average_rating|mul:20}}{%endif%}%;"></div><!-- End .ratings-val -->
+                                                    </div><!-- End .ratings -->
+                                                    <span class="ratings-text">({{ product.total_reviews }} Reviews)</span>
+                                                </div><!-- End .ratings-container -->
+
+                                                <!-- <div class="product-nav product-nav-dots">
+                                                    <a href="#" style="background: #69b4ff;"><span class="sr-only">Color name</span></a>
+                                                    <a href="#" style="background: #ff887f;"><span class="sr-only">Color name</span></a>
+                                                    <a href="#" class="active" style="background: #333333;"><span class="sr-only">Color name</span></a>
+                                                </div>End .product-nav -->
+                                            </div><!-- End .product-body -->
+                                        </div><!-- End .product -->
+
+                                        {% endif %}
+
+                                        {% endfor %}
+
+                                    </div><!-- End .owl-carousel -->
+                                </div><!-- .End .tab-pane -->
+
+
+                            </div><!-- End .tab-content -->
+                        </div><!-- End .col-xl-4-5col -->
+                    </div><!-- End .row -->
+                </div><!-- End .container -->
+            </div><!-- End .bg-light pt-5 pb-6 -->

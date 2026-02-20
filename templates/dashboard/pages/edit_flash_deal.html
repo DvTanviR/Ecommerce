@@ -1,0 +1,113 @@
+{% extends 'dashboard/main.html' %}
+{% load static %}
+
+{% block content %}
+
+<div class="main-content">
+	<section class="section">
+		<div class="section-body">
+			<div class="row">
+				<div class="col-12">
+					<div class="card">
+						<div class="card-header">
+							<h4>
+								{% if is_new %}
+									Create Flash Deal
+								{% else %}
+									Edit Flash Deal
+								{% endif %}
+							</h4>
+						</div>
+						<div class="card-body">
+							<form method="post" enctype="multipart/form-data">
+								{% csrf_token %}
+								
+								<div class="form-group">
+									<label for="{{ form.taitle.id_for_label }}">Title</label>
+									{{ form.taitle }}
+									{% if form.taitle.errors %}
+										<small class="text-danger">{{ form.taitle.errors }}</small>
+									{% endif %}
+								</div>
+
+								<div class="form-group">
+									<label for="{{ form.image.id_for_label }}">Flash Deal Image</label>
+									{{ form.image }}
+									{% if form.image.errors %}
+										<small class="text-danger">{{ form.image.errors }}</small>
+									{% endif %}
+								</div>
+
+								<div class="form-group">
+									<label for="{{ form.price.id_for_label }}">Price/Discount (e.g., "50% OFF" or "$19.99")</label>
+									{{ form.price }}
+									{% if form.price.errors %}
+										<small class="text-danger">{{ form.price.errors }}</small>
+									{% endif %}
+								</div>
+
+								<div class="form-group">
+									<label for="{{ form.url.id_for_label }}">Link URL</label>
+									{{ form.url }}
+									{% if form.url.errors %}
+										<small class="text-danger">{{ form.url.errors }}</small>
+									{% endif %}
+								</div>
+
+								<div class="form-group">
+									<label for="{{ form.background.id_for_label }}">Background Image (Optional)</label>
+									{{ form.background }}
+									{% if form.background.errors %}
+										<small class="text-danger">{{ form.background.errors }}</small>
+									{% endif %}
+								</div>
+
+								<button type="submit" class="btn btn-primary">
+									{% if is_new %}
+										Create Flash Deal
+									{% else %}
+										Update Flash Deal
+									{% endif %}
+								</button>
+								<a href="{% url 'template' %}" class="btn btn-secondary">Cancel</a>
+							</form>
+
+							{% if flash_deal %}
+								<hr>
+								<h5>Current Flash Deal</h5>
+								<div class="row">
+									<div class="col-md-6">
+										<p><strong>Title:</strong> {{ flash_deal.taitle }}</p>
+										<p><strong>Price/Discount:</strong> {{ flash_deal.price }}</p>
+										<p><strong>URL:</strong> <a href="{{ flash_deal.url }}" target="_blank">{{ flash_deal.url }}</a></p>
+									</div>
+									<div class="col-md-6">
+										<p><strong>Images:</strong></p>
+										{% if flash_deal.image %}
+											<p><strong>Main Image:</strong></p>
+											<img src="{{ flash_deal.image.url }}" width="150" class="img-thumbnail">
+										{% else %}
+											<span>No main image</span>
+										{% endif %}
+										{% if flash_deal.background %}
+											<p><strong>Background Image:</strong></p>
+											<img src="{{ flash_deal.background.url }}" width="150" class="img-thumbnail">
+										{% else %}
+											<span>No background image</span>
+										{% endif %}
+									</div>
+								</div>
+							{% else %}
+								<div class="alert alert-info mt-3">
+									No Flash Deal exists yet. Create one by filling the form above.
+								</div>
+							{% endif %}
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</section>
+</div>
+
+{% endblock %}

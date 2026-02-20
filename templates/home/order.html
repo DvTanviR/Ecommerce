@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Order</title>
+</head>
+<body>
+    <h1>Order Details</h1>
+    <table>
+        <thead>
+            <tr>
+                <th>Product</th>
+                <th>Quantity</th>
+                <th>Price</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for product in products %}
+            <tr>
+                <td><a href="{% url 'product' product.slug %}">{{product.taitle}}</a></td>
+                <td>{{product.quantity}}</td>
+                <td>{{product.price}}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    <form action="/submit-order/" method="post">
+        {% csrf_token %}
+        {% for product in products %}
+        <input type="hidden" name="product_id" value="{{product.slug}}">
+        {% endfor %}
+        <button type="submit">Submit Order</button>
+    </form>
+</body>
+</html>

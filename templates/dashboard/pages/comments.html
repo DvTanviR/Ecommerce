@@ -1,0 +1,97 @@
+{% extends 'dashboard/main.html' %}
+
+{% block content %}
+{% load static %}
+      <div class="main-content">
+        <section class="section">
+          <div class="section-body">
+            <div class="row">
+              <div class="col-12">
+                <div class="card">
+                  <div class="card-header">
+                    <h4>Blog Comments</h4>
+                    <div class="card-header-form">
+                      <form method="get" action="{% url 'comments' %}">
+                        <div class="input-group">
+                          <input type="text" name="q" class="form-control" placeholder="Search comments" value="{{ request.GET.q }}">
+                          <div class="input-group-btn">
+                            <button class="btn btn-primary"><i class="fas fa-search"></i></button>
+                          </div>
+                        </div>
+                      </form>
+                    </div>
+                  </div>
+                  <div class="card-body p-0">
+                    <div class="table-responsive">
+                      <table class="table table-striped">
+                        <tr>
+                          <th>Blog Post</th>
+                          <th>Comment</th>
+                          <th>Author</th>
+                          <th>Status</th>
+                          <th>Date</th>
+                          <th>Action</th>
+                        </tr>
+                        {% for comment in comments %}
+                        <tr>
+                          <td>{{ comment.blog.title }}</td>
+                          <td>{{ comment.content|truncatechars:100 }}</td>
+                          <td>{{ comment.user.name }}</td>
+                          <td>
+                            {% if comment.is_approved %}
+                            <div class="badge badge-success">Approved</div>
+                            {% else %}
+                            <div class="badge badge-warning">Pending</div>
+                            {% endif %}
+                          </td>
+                          <td>{{ comment.created_date|date:"M d, Y" }}</td>
+                          <td>
+                            <form method="post" action="{% url 'approve_comment' comment.id %}" style="display: inline;">
+                              {% csrf_token %}
+                              <button type="submit" class="btn btn-{% if comment.is_approved %}warning{% else %}success{% endif %}">
+                                {% if comment.is_approved %}Unapprove{% else %}Approve{% endif %}
+                              </button>
+                            </form>
+                            <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#deleteCommentModal{{ comment.id }}">
+                              Delete
+                            </button>
+                          </td>
+                        </tr>
+                        {% endfor %}
+                      </table>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+      </div>
+
+      {% for comment in comments %}
+      <div class="modal fade" id="deleteCommentModal{{ comment.id }}" tabindex="-1" role="dialog" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title">Delete Confirmation</h5>
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            <div class="modal-body">
+              Are you sure you want to delete this comment?<br><br>
+              <strong>Author:</strong> {{ comment.user.name }}<br>
+              <strong>Comment:</strong> {{ comment.content }}
+            </div>
+            <div class="modal-footer bg-whitesmoke br">
+              <form method="post" action="{% url 'delete_comment' comment.id %}">
+                {% csrf_token %}
+                <button type="submit" class="btn btn-danger">Delete</button>
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+      {% endfor %}
+{% endblock %}

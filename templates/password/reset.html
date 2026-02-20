@@ -1,0 +1,25 @@
+{% extends 'main.html' %}
+
+{% block content %}
+
+<div class="container">
+	<div class="form-box">
+		<div id="reset-form">
+			<form method="POST">
+
+				{% csrf_token %}
+
+				{{form.as_p}}
+
+				<button type="submit" class="btn btn-outline-primary-2">
+					<span>Save</span>
+					<!-- <i class="icon-long-arrow-right"></i> -->
+				</button>
+
+			</form>
+		</div>
+	</div>
+</div>
+
+
+{% endblock %}

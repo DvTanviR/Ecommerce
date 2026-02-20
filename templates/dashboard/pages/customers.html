@@ -1,0 +1,91 @@
+{% extends 'dashboard/main.html' %}
+
+{% block content %}
+{% load static %}
+      <!-- Main Content -->
+      <div class="main-content">
+        <section class="section">
+          <div class="section-body">
+            <!-- add content here -->
+
+            <div class="row">
+              <div class="col-12">
+                <div class="card">
+                  <div class="card-header">
+                    <h4>Your Customers</h4>
+                    <div class="card-header-form">
+                      <form method="get" action="{% url 'customers' %}">
+                        <div class="input-group">
+                          <input type="text" name="q" class="form-control" placeholder="Search" value="{{ request.GET.q }}">
+                          <div class="input-group-btn">
+                            <button class="btn btn-primary"><i class="fas fa-search"></i></button>
+                          </div>
+                        </div>
+                      </form>
+                    </div>
+                  </div>
+                  <div class="card-body p-0">
+                    <div class="table-responsive">
+                      <table class="table table-striped">
+                        <tr>
+                          <th>ID</th>
+                          <th>Name</th>
+                          <th>Date Joined</th>
+                          <th>Last Login</th>
+                          <th>Action</th>
+                        </tr>
+                        {% for item in customers %}
+                        <tr>
+                          <td>#{{item.id}}</td>
+                          <td>{{item.name}}</td>
+                          <td>{{item.date_joined}}</td>
+                          <td>
+                            <div class="badge badge-success">{{ item.last_login|timesince }} ago</div>
+                          </td>
+                          <td>
+                            <a href="{% url 'customer_details' item.id %}" class="btn btn-primary">Details</a>
+                            <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#deleteModal{{ item.id }}">
+                              Delete</button>
+                          </td>
+                        </tr>
+                        {% endfor %}
+                      </table>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+          </div>
+        </section>
+      </div>
+
+      {% for item in customers %}
+      <!-- basic modal -->
+      <div class="modal fade" id="deleteModal{{ item.id }}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+      aria-hidden="true">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalLabel">Delete Confirmation</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body">
+            Are you sure you want to delete this customer?
+          </div>
+          <div class="modal-footer bg-whitesmoke br">
+            <form method="post" action="{% url 'delete_customer' item.id %}">
+              {% csrf_token %}
+              <button type="submit" class="btn btn-danger">Delete</button>
+              <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+    {% endfor %}
+{% endblock %}
+
+

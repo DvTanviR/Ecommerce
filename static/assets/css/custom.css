@@ -1,0 +1,39 @@
+.comment-list {
+    list-style: none;
+    padding: 0;
+}
+
+.comment {
+    margin-bottom: 2rem;
+    padding: 1.5rem;
+    background: #f8f8f8;
+    border-radius: 4px;
+}
+
+.comment-meta {
+    margin-bottom: 1rem;
+}
+
+.comment-author {
+    color: #333;
+    margin-right: 1rem;
+}
+
+.comment-date {
+    color: #777;
+    font-size: 0.9em;
+}
+
+.comment-content {
+    color: #555;
+    line-height: 1.6;
+}
+
+.reply .heading {
+    margin-bottom: 1.5rem;
+}
+
+.reply .title-desc {
+    color: #777;
+    font-size: 0.9em;
+}

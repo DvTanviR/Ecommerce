@@ -1,0 +1,116 @@
+{% extends 'main.html' %}
+{% block content %}
+<div class="container" style="margin-top: 50px; margin-bottom: 100px;">
+    
+
+    <div class="form-box">
+        <form method="POST" enctype="multipart/form-data">
+            {% csrf_token %}
+            
+            <div class="form-group mb-4">
+                <label>Your Name *</label>
+                <input type="text" class="form-control" name="name" required>
+            </div>
+
+            <div class="form-group mb-4">
+                <label>Your Email </label>
+                <input type="email" class="form-control" name="email" required>
+            </div>
+
+            <label>Rating *</label><br>
+			<div class="star-rating" >
+				<input type="radio" id="star5" name="rating" value="5" required><label for="star5" title="5 stars" ><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-star-fill" viewBox="0 0 16 16">
+					<path d="M3.612 15.443c-.386.198-.824-.149-.746-.592l.83-4.73L.173 6.765c-.329-.314-.158-.888.283-.95l4.898-.696L7.538.792c.197-.39.73-.39.927 0l2.184 4.327 4.898.696c.441.062.612.636.282.95l-3.522 3.356.83 4.73c.078.443-.36.79-.746.592L8 13.187l-4.389 2.256z"/>
+				  </svg></label>
+				<input type="radio" id="star4" name="rating" value="4"><label for="star4" title="4 stars"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-star-fill" viewBox="0 0 16 16">
+					<path d="M3.612 15.443c-.386.198-.824-.149-.746-.592l.83-4.73L.173 6.765c-.329-.314-.158-.888.283-.95l4.898-.696L7.538.792c.197-.39.73-.39.927 0l2.184 4.327 4.898.696c.441.062.612.636.282.95l-3.522 3.356.83 4.73c.078.443-.36.79-.746.592L8 13.187l-4.389 2.256z"/>
+				  </svg></label>
+				<input type="radio" id="star3" name="rating" value="3"><label for="star3" title="3 stars"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-star-fill" viewBox="0 0 16 16">
+					<path d="M3.612 15.443c-.386.198-.824-.149-.746-.592l.83-4.73L.173 6.765c-.329-.314-.158-.888.283-.95l4.898-.696L7.538.792c.197-.39.73-.39.927 0l2.184 4.327 4.898.696c.441.062.612.636.282.95l-3.522 3.356.83 4.73c.078.443-.36.79-.746.592L8 13.187l-4.389 2.256z"/>
+				  </svg></label>
+				<input type="radio" id="star2" name="rating" value="2"><label for="star2" title="2 stars"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-star-fill" viewBox="0 0 16 16">
+					<path d="M3.612 15.443c-.386.198-.824-.149-.746-.592l.83-4.73L.173 6.765c-.329-.314-.158-.888.283-.95l4.898-.696L7.538.792c.197-.39.73-.39.927 0l2.184 4.327 4.898.696c.441.062.612.636.282.95l-3.522 3.356.83 4.73c.078.443-.36.79-.746.592L8 13.187l-4.389 2.256z"/>
+				  </svg></label>
+				<input type="radio" id="star1" name="rating" value="1"><label for="star1" title="1 star"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-star-fill" viewBox="0 0 16 16">
+					<path d="M3.612 15.443c-.386.198-.824-.149-.746-.592l.83-4.73L.173 6.765c-.329-.314-.158-.888.283-.95l4.898-.696L7.538.792c.197-.39.73-.39.927 0l2.184 4.327 4.898.696c.441.062.612.636.282.95l-3.522 3.356.83 4.73c.078.443-.36.79-.746.592L8 13.187l-4.389 2.256z"/>
+				  </svg></label>
+			</div>
+
+            <div class="form-group mb-4">
+                <label>Review Title *</label>
+                <input type="text" class="form-control" name="title" required 
+                       placeholder="Sum up your review in a short title">
+            </div>
+
+            <div class="form-group mb-4">
+                <label>Your Review *</label>
+                <textarea class="form-control" name="review" rows="6" required
+                          placeholder="What did you like or dislike? How was the quality?"></textarea>
+            </div>
+
+            <div class="form-group mb-4">
+                <label>Add Photos (optional)</label>
+                <input type="file" class="form-control" name="images" accept="image/*" multiple>
+                <small class="text-muted">You can select multiple images. Max 5 images.</small>
+            </div>
+
+            <button type="submit" class="btn btn-primary">
+                Submit Review
+            </button>
+        </form>
+    </div>
+</div>
+
+<style>
+    .review-header {
+        text-align: center;
+        padding: 20px;
+        background: #f8f9fa;
+        border-radius: 8px;
+    }
+    .product-info {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        margin-top: 20px;
+    }
+    .product-title {
+        font-size: 1.2em;
+        font-weight: 600;
+        margin-top: 10px;
+    }
+    .star-rating {
+        direction: rtl;
+        display: inline-block;
+        padding: 20px;
+    }
+    .star-rating input[type="radio"] {
+        display: none;
+    }
+    .star-rating label {
+        color: #bbb;
+        font-size: 28px;
+        padding: 0 4px;
+        cursor: pointer;
+        transition: all 0.3s ease;
+    }
+    .star-rating input[type="radio"]:checked ~ label {
+        color: #f2b600;
+    }
+    .star-rating label:hover,
+    .star-rating label:hover ~ label {
+        color: #f2b600;
+    }
+    .form-box {
+        max-width: 800px;
+        margin: 0 auto;
+        padding: 30px;
+        box-shadow: 0 0 15px rgba(0,0,0,0.1);
+        border-radius: 8px;
+    }
+    .form-group label {
+        font-weight: 600;
+        margin-bottom: 8px;
+    }
+</style>
+{% endblock %}

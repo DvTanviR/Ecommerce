@@ -1,0 +1,152 @@
+{% extends 'main.html' %}
+
+{% block content %}
+{% load custom_tag %}
+<main class="main">
+    
+    </div><!-- End .page-header -->
+    <nav aria-label="breadcrumb" class="breadcrumb-nav mb-3">
+        <div class="container">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a href="index.html">Home</a></li>
+                <li class="breadcrumb-item"><a href="#">Blog</a></li>
+                <li class="breadcrumb-item active" aria-current="page">Listing</li>
+            </ol>
+        </div><!-- End .container -->
+    </nav><!-- End .breadcrumb-nav -->
+
+    <div class="page-content">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-9">
+                    {% for post in blog_posts %}
+                    <article class="entry entry-list">
+                        <div class="row align-items-center">
+                            <div class="col-md-5">
+                                <figure class="entry-media">
+                                    <a href="{% url 'blog_detail' post.slug %}">
+                                        <img src="{{ post.featured_image.url }}" alt="{{ post.title }}">
+                                    </a>
+                                </figure>
+                            </div>
+
+                            <div class="col-md-7">
+                                <div class="entry-body">
+                                    <div class="entry-meta">
+                                        <span class="entry-author">
+                                            by <a href="#">{{ post.author.name }}</a>
+                                        </span>
+                                        <span class="meta-separator">|</span>
+                                        <a href="#">{{ post.created_date|date:"M d, Y" }}</a>
+                                        <span class="meta-separator">|</span>
+                                        <a href="#">{{ post.comments.count }} Comments</a>
+                                    </div>
+
+                                    <h2 class="entry-title">
+                                        <a href="{% url 'blog_detail' post.slug %}">{{ post.title }}</a>
+                                    </h2>
+
+                                    <div class="entry-cats">
+                                        in <a href="?category={{ post.category.slug }}">{{ post.category.name }}</a>
+                                    </div>
+
+                                    <div class="entry-content">
+                                        <p>{{ post.excerpt }}</p>
+                                        <a href="{% url 'blog_detail' post.slug %}" class="read-more">Continue Reading</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </article>
+                    {% empty %}
+                    <p>No blog posts found.</p>
+                    {% endfor %}
+
+                    <!-- Pagination -->
+                    {% if blog_posts.has_other_pages %}
+                    <nav aria-label="Page navigation">
+                        <ul class="pagination">
+                            {% if blog_posts.has_previous %}
+                            <li class="page-item">
+                                <a class="page-link page-link-prev" href="?page={{ blog_posts.previous_page_number }}{% if request.GET.q %}&q={{ request.GET.q }}{% endif %}{% if request.GET.category %}&category={{ request.GET.category }}{% endif %}{% if request.GET.tag %}&tag={{ request.GET.tag }}{% endif %}" aria-label="Previous">
+                                    <span aria-hidden="true"><i class="icon-long-arrow-left"></i></span>Prev
+                                </a>
+                            </li>
+                            {% endif %}
+
+                            {% for num in blog_posts.paginator.page_range %}
+                            <li class="page-item {% if blog_posts.number == num %}active{% endif %}">
+                                <a class="page-link" href="?page={{ num }}{% if request.GET.q %}&q={{ request.GET.q }}{% endif %}{% if request.GET.category %}&category={{ request.GET.category }}{% endif %}{% if request.GET.tag %}&tag={{ request.GET.tag }}{% endif %}">{{ num }}</a>
+                            </li>
+                            {% endfor %}
+
+                            {% if blog_posts.has_next %}
+                            <li class="page-item">
+                                <a class="page-link page-link-next" href="?page={{ blog_posts.next_page_number }}{% if request.GET.q %}&q={{ request.GET.q }}{% endif %}{% if request.GET.category %}&category={{ request.GET.category }}{% endif %}{% if request.GET.tag %}&tag={{ request.GET.tag }}{% endif %}" aria-label="Next">
+                                    Next <span aria-hidden="true"><i class="icon-long-arrow-right"></i></span>
+                                </a>
+                            </li>
+                            {% endif %}
+                        </ul>
+                    </nav>
+                    {% endif %}
+                </div>
+
+                <aside class="col-lg-3">
+                    <div class="sidebar">
+                        <!-- Search Widget -->
+                        <div class="widget widget-search">
+                            <h3 class="widget-title">Search</h3>
+                            <form action="{% url 'blog' %}" method="GET">
+                                <label for="ws" class="sr-only">Search in blog</label>
+                                <input type="search" class="form-control" name="q" id="ws" placeholder="Search in blog" value="{{ request.GET.q }}" required>
+                                <button type="submit" class="btn"><i class="icon-search"></i><span class="sr-only">Search</span></button>
+                            </form>
+                        </div>
+
+                        <!-- Categories Widget -->
+                        <div class="widget widget-cats">
+                            <h3 class="widget-title">Categories</h3>
+                            <ul>
+                                {% for category in categories %}
+                                <li><a href="?category={{ category.slug }}">{{ category.name }}<span>{{ category.blog_set.count }}</span></a></li>
+                                {% endfor %}
+                            </ul>
+                        </div>
+
+                        <!-- Recent Posts Widget -->
+                        <div class="widget">
+                            <h3 class="widget-title">Recent Posts</h3>
+                            <ul class="posts-list">
+                                {% for post in recent_posts %}
+                                <li>
+                                    <figure>
+                                        <a href="{% url 'blog_detail' post.slug %}">
+                                            <img src="{{ post.featured_image.url }}" alt="{{ post.title }}">
+                                        </a>
+                                    </figure>
+                                    <div>
+                                        <span>{{ post.created_date|date:"M d, Y" }}</span>
+                                        <h4><a href="{% url 'blog_detail' post.slug %}">{{ post.title }}</a></h4>
+                                    </div>
+                                </li>
+                                {% endfor %}
+                            </ul>
+                        </div>
+
+                        <!-- Tags Widget -->
+                        <div class="widget">
+                            <h3 class="widget-title">Browse Tags</h3>
+                            <div class="tagcloud">
+                                {% for tag in popular_tags %}
+                                <a href="?tag={{ tag.slug }}">{{ tag.name }}</a>
+                                {% endfor %}
+                            </div>
+                        </div>
+                    </div>
+                </aside>
+            </div>
+        </div>
+    </div>
+</main>
+{% endblock %}

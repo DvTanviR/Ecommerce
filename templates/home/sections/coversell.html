@@ -1,0 +1,327 @@
+{% load static %}
+
+<style>
+/* Essential styles for coversell section */
+.intro-section {
+    padding-top: 1rem;
+    padding-bottom: 1rem;
+    margin-bottom: 2rem;
+}
+
+.intro-slider-container {
+    position: relative;
+    background: #f8f8f8;
+    height: 400px; /* Set to exactly 400px */
+    max-width: 780px; /* Set max-width to 780px */
+    margin: 0 auto; /* Center the slider if parent is wider */
+}
+
+.intro-slider {
+    height: 100%;
+    width: 100%;
+}
+
+.intro-slider .owl-carousel,
+.intro-slider .owl-stage-outer,
+.intro-slider .owl-stage,
+.intro-slider .owl-item {
+    height: 100%;
+}
+
+.intro-slide {
+    position: relative;
+    height: 100%;
+    background: #f8f8f8;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.slide-image {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.slide-image picture {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.slide-image img {
+    max-width: 100%;
+    max-height: 100%;
+    width: auto;
+    height: auto;
+    object-fit: contain; /* Changed back to contain */
+    display: block;
+}
+
+/* Banner styles */
+.banner {
+    position: relative;
+    margin-bottom: 1rem;
+    height: 120px; /* Set to exactly 120px */
+    max-width: 370px; /* Set max-width to 370px */
+    overflow: hidden;
+    margin: 0 auto 1rem auto; /* Center the banner if parent is wider */
+}
+
+.banner img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.banner-content {
+    position: absolute;
+    left: 30px;
+    padding-top: 0.4rem;
+    padding-bottom: 0.4rem;
+    color: #777;
+    font-weight: 300;
+    font-size: 1.4rem;
+    line-height: 1.4;
+    letter-spacing: -0.01em;
+}
+
+.banner-subtitle {
+    font-size: 1.4rem;
+    margin-bottom: 0.2rem;
+}
+
+.banner-title {
+    font-weight: 600;
+    font-size: 1.8rem;
+    line-height: 1.22;
+    margin-bottom: 0.6rem;
+}
+
+.banner-link {
+    display: inline-block;
+    font-weight: 400;
+    line-height: 1.3;
+    padding: 0.3rem 1rem;
+    border-radius: 20px;
+    letter-spacing: -0.01em;
+    margin-left: -1rem;
+    text-align: center;
+    min-width: 110px;
+}
+
+.banner-link:hover {
+    color: #fff;
+    background-color: #fcb941;
+    text-decoration: none;
+}
+
+.banner-link i {
+    margin-left: 0.7rem;
+}
+
+@media (max-width: 991px) {
+    .intro-slider-container {
+        height: 400px; /* Maintain height on tablets */
+        max-width: 100%; /* Allow full width on smaller screens */
+    }
+    .banner {
+        height: 120px; /* Maintain banner height */
+    }
+}
+
+@media (max-width: 767px) {
+    .intro-slider-container {
+        height: 350px;
+    }
+}
+
+@media (max-width: 480px) {
+    .intro-slider-container {
+        height: 300px;
+    }
+    .banner {
+        height: 100px;
+    }
+}
+
+/* Debug info panel */
+.debug-info {
+    position: fixed;
+    top: 10px;
+    right: 10px;
+    background: rgba(0,0,0,0.8);
+    color: white;
+    padding: 10px;
+    z-index: 9999;
+    display: none;
+}
+
+/* Owl Carousel Nav Customization */
+.owl-nav {
+    margin-top: 0;
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 100%;
+    left: 0;
+}
+
+.owl-prev, .owl-next {
+    position: absolute;
+    background: rgba(255,255,255,0.8) !important;
+    width: 40px !important;
+    height: 40px !important;
+    border-radius: 50% !important;
+    display: flex !important;
+    align-items: center;
+    justify-content: center;
+}
+
+.owl-prev {
+    left: 20px;
+}
+
+.owl-next {
+    right: 20px;
+}
+
+/* Slider loader */
+.slider-loader {
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    left: 0;
+    top: 0;
+    background-color: #f4f4f4;
+    margin-bottom: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.slider-loader::before {
+    content: '';
+    width: 32px;
+    height: 32px;
+    border: 2px solid #333;
+    border-top-color: transparent;
+    border-radius: 50%;
+    animation: spin .8s infinite linear;
+}
+
+@keyframes spin {
+    0% {
+        transform: rotate(0deg);
+    }
+    100% {
+        transform: rotate(360deg);
+    }
+}
+</style>
+
+<div class="debug-info">
+    {% for item in coversell %}
+    <div>Image URL: {{item.image.url}}</div>
+    <div>Mobile Image URL: {{item.mobile_image.url}}</div>
+    {% endfor %}
+</div>
+
+<div class="intro-section">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8">
+                <div class="intro-slider-container mb-2 mb-lg-0">
+                    <div class="intro-slider owl-carousel owl-simple owl-nav-inside" data-toggle="owl">
+                        {% for item in coversell %}
+                        <div class="intro-slide">
+                            <figure class="slide-image">
+                                <picture>
+                                    <source media="(max-width: 480px)" srcset="{{item.mobile_image.url}}">
+                                    <img src="{{item.image.url}}" alt="Coversell Image" 
+                                         onerror="this.onerror=null; console.error('Failed to load image:', this.src);">
+                                </picture>
+                            </figure>
+                        </div>
+                        {% endfor %}
+                    </div>
+                    <span class="slider-loader"></span>
+                </div>
+            </div>
+
+            <div class="col-lg-4">
+                <div class="intro-banners">
+                    {% for item in featuredproduct %}
+                    <div class="banner mb-lg-1 mb-xl-2">
+                        <a href="#">
+                            <img src="{{item.background.url}}" alt="Banner">
+                        </a>
+                        <div class="banner-content">
+                            <h4 class="banner-subtitle d-lg-none d-xl-block"><a href="#">{{item.catagory.name}}</a></h4>
+                            <h3 class="banner-title"><a href="#">{{item.taitle|safe}}</a></h3>
+                            <a href="{{item.url}}" class="banner-link">Shop Now<i class="icon-long-arrow-right"></i></a>
+                        </div>
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    // For debugging - show image URLs
+    const showDebug = localStorage.getItem('showDebug') === 'true';
+    if (showDebug) {
+        document.querySelector('.debug-info').style.display = 'block';
+    }
+
+    // Initialize Owl Carousel
+    const slider = document.querySelector('.intro-slider');
+    if (slider) {
+        $(slider).owlCarousel({
+            items: 1,
+            nav: true,
+            dots: true,
+            loop: true,
+            margin: 0,
+            autoplay: true,
+            autoplayTimeout: 5000,
+            navText: ['<i class="icon-angle-left">', '<i class="icon-angle-right">'],
+            responsive: {
+                768: {
+                    nav: true,
+                    dots: false
+                }
+            }
+        });
+    }
+
+    // Add error handling for images
+    const images = document.querySelectorAll('.intro-slide img');
+    images.forEach(img => {
+        img.addEventListener('error', function() {
+            console.error('Failed to load image:', this.src);
+            this.style.display = 'none';
+            // Try to show a fallback placeholder image
+            this.src = '{% static "assets/img/placeholder.webp" %}';
+            this.style.display = 'block';
+        });
+    });
+});
+
+// For debugging - press Ctrl+Shift+D to toggle debug info
+document.addEventListener('keydown', function(e) {
+    if (e.ctrlKey && e.shiftKey && e.key === 'D') {
+        const debugInfo = document.querySelector('.debug-info');
+        const isVisible = debugInfo.style.display === 'block';
+        debugInfo.style.display = isVisible ? 'none' : 'block';
+        localStorage.setItem('showDebug', !isVisible);
+    }
+});
+</script>

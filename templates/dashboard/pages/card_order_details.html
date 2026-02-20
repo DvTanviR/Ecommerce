@@ -1,0 +1,98 @@
+{% extends 'dashboard/main.html' %}
+
+{% block content %}
+<div class="main-content">
+  <section class="section">
+    <div class="section-body">
+      <div class="row">
+        <div class="col-12">
+          <div class="card">
+            <div class="card-header">
+              <h4>Card Order Details</h4>
+            </div>
+            <div class="card-body">
+              <form method="post">
+                {% csrf_token %}
+                <!-- Order Information -->
+                <div class="form-group">
+                  <label>Order ID</label>
+                  <input type="text" class="form-control" value="{{ order.id }}" readonly>
+                </div>
+                <div class="form-group">
+                  <label>Order Date</label>
+                  <input type="text" class="form-control" value="{{ order.order_date }}" readonly>
+                </div>
+                <div class="form-group">
+                  <label>Total Amount</label>
+                  <input type="text" class="form-control" value="{{ order.total_amount }}" readonly>
+                </div>
+                
+                <!-- Customer Information -->
+                <h5>Customer Information</h5>
+                <div class="form-group">
+                  <label>Customer Name</label>
+                  <input type="text" class="form-control" value="{{ order.user.name }}" readonly>
+                </div>
+                <div class="form-group">
+                  <label>Email</label>
+                  <input type="text" class="form-control" value="{{ order.user.email }}" readonly>
+                </div>
+
+                <!-- Order Items -->
+                <h5>Order Items</h5>
+                <div class="table-responsive">
+                  <table class="table table-striped">
+                    <thead>
+                      <tr>
+                        <th>Product Image</th>
+                        <th>Product</th>
+                        <th>Price</th>
+                        <th>Quantity</th>
+                        <th>Total</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {% for item in order.items.all %}
+                      <tr>
+                        <td>
+                          <div style="width: 80px; height: 80px;">
+                            {% with main_image=item.product.productimage_set.first %}
+                              {% if main_image %}
+                                <img src="{{ main_image.image.url }}" alt="{{ item.product.taitle }}" class="img-fluid rounded">
+                              {% else %}
+                                <div class="text-muted">No image</div>
+                              {% endif %}
+                            {% endwith %}
+                          </div>
+                        </td>
+                        <td>{{ item.product.taitle }}</td>
+                        <td>${{ item.price }}</td>
+                        <td>{{ item.quantity }}</td>
+                        <td>${{ item.total }}</td>
+                      </tr>
+                      {% endfor %}
+                    </tbody>
+                  </table>
+                </div>
+
+                <!-- Order Status -->
+                <div class="form-group">
+                  <label>Status</label>
+                  <select class="form-control" name="status">
+                    {% for choice in status_choices %}
+                      <option value="{{ choice.0 }}" {% if order.status == choice.0 %}selected{% endif %}>{{ choice.1 }}</option>
+                    {% endfor %}
+                  </select>
+                </div>
+
+                <button type="submit" class="btn btn-primary">Update Status</button>
+                <a href="{% url 'orders' %}" class="btn btn-secondary">Back to Orders</a>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+</div>
+{% endblock %}

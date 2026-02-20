@@ -1,0 +1,99 @@
+{% extends 'dashboard/main.html' %}
+{% load static %}
+
+{% block content %}
+
+<div class="main-content">
+    <section class="section">
+      <div class="section-body">
+        <div class="row">
+          <div class="col-12">
+            <div class="card">
+                    <div class="card-header">
+                        <h4>Product Reviews</h4>
+                        <div class="card-header-form">
+                            <form method="get">
+                                <div class="input-group">
+                                    <input type="text" class="form-control" name="q" placeholder="Search reviews" value="{{ request.GET.q }}">
+                                    <select name="verified" class="form-control">
+                                        <option value="">All Reviews</option>
+                                        <option value="true" {% if request.GET.verified == 'true' %}selected{% endif %}>Verified</option>
+                                        <option value="false" {% if request.GET.verified == 'false' %}selected{% endif %}>Unverified</option>
+                                    </select>
+                                    <div class="input-group-btn">
+                                        <button class="btn btn-primary"><i class="fas fa-search"></i></button>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <div class="table-responsive">
+                            <table class="table table-striped">
+                                <thead>
+                                    <tr>
+                                        
+                                        <th>Customer</th>
+                                        <th>Rating</th>
+                                        <th>Review Title</th>
+                                        <th>Status</th>
+                                        <th>Date</th>
+                                        <th>Action</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {% for review in reviews %}
+                                    <tr>
+                                       
+                                        <td>
+                                            {{ review.customer_name }}<br>
+                                            <small class="text-muted">{{ review.customer_email }}</small>
+                                        </td>
+                                        <td>
+                                            <div class="text-warning">
+                                                {% for i in "12345"|make_list %}
+                                                    {% if forloop.counter <= review.rating %}
+                                                        ★
+                                                    {% else %}
+                                                        ☆
+                                                    {% endif %}
+                                                {% endfor %}
+                                            </div>
+                                        </td>
+                                        <td>{{ review.title }}</td>
+                                        <td>
+                                            {% if review.is_verified %}
+                                                <div class="badge badge-success">Verified</div>
+                                            {% else %}
+                                                <div class="badge badge-warning">Pending</div>
+                                            {% endif %}
+                                        </td>
+                                        <td>{{ review.created_at|date:"M d, Y" }}</td>
+                                        <td>
+                                            <a href="{% url 'review_details' review.pk %}" class="btn btn-primary btn-sm">View</a>
+                                            <a href="{% url 'approve_review' review.pk %}" class="btn btn-{% if review.is_verified %}warning{% else %}success{% endif %} btn-sm">
+                                                {% if review.is_verified %}Unapprove{% else %}Approve{% endif %}
+                                            </a>
+                                            <a href="{% url 'delete_review' review.pk %}" class="btn btn-danger btn-sm" onclick="return confirm('Are you sure you want to delete this review?')">Delete</a>
+                                        </td>
+                                    </tr>
+                                    {% empty %}
+                                    <tr>
+                                        <td colspan="7" class="text-center">No reviews found</td>
+                                    </tr>
+                                    {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+      </div>
+    </section>
+  </div>
+
+
+
+  
+{% endblock %}

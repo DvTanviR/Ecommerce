@@ -1,0 +1,114 @@
+{% extends 'main.html' %}
+
+{% block head %}
+    <meta name="description" content="Learn more about our online mobile shop, our vision, mission, and values. Quality products, great service, and customer satisfaction.">
+    <meta name="keywords" content="Mobile shop, about us, mission, vision, quality, customer service">
+{% endblock %}
+
+{% block content %}
+{% load static %}
+        <main class="main">
+            <nav aria-label="breadcrumb" class="breadcrumb-nav border-0 mb-0">
+                <div class="container">
+                    <ol class="breadcrumb">
+                        <li class="breadcrumb-item"><a href="{% url 'home' %}">Home</a></li>
+                        <li class="breadcrumb-item active" aria-current="page">About us</li>
+                    </ol>
+                </div><!-- End .container -->
+            </nav><!-- End .breadcrumb-nav -->
+            <div class="container">
+         	<div class="page-header page-header-big text-center" style="background-image: url('{% static 'assets/img/about-header.jpg' %}')">
+        		<h1 class="page-title text-white">About Us<span class="text-white">Who we are</span></h1>
+        	</div><!-- End .page-header -->
+            </div><!-- End .container -->
+
+            <div class="page-content pb-0">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-lg-6 mb-3 mb-lg-0">
+                            <h2 class="title">Our Vision</h2><!-- End .title -->
+                            <p>Our online store is dedicated to providing high-quality mobile products and accessories. We are passionate about helping customers find the right devices and accessories for their needs at competitive prices.</p>
+                        </div><!-- End .col-lg-6 -->
+                        
+                        <div class="col-lg-6">
+                            <h2 class="title">Our Mission</h2><!-- End .title -->
+                            <p>Our mission is to deliver high-quality mobile devices and accessories at affordable prices with fast shipping and excellent customer support. We believe technology should be accessible to everyone, and we're committed to providing the best shopping experience possible.</p>
+                        </div><!-- End .col-lg-6 -->
+                    </div><!-- End .row -->
+
+                    <div class="mb-5"></div><!-- End .mb-4 -->
+                </div><!-- End .container -->
+
+                <div class="bg-light-2 pt-6 pb-5 mb-6 mb-lg-8">
+                    <div class="container">
+                        <div class="row">
+                            <div class="col-lg-5 mb-3 mb-lg-0">
+                                <h2 class="title">Who We Are</h2><!-- End .title -->
+                                <p class="lead text-primary mb-3">We are a trusted online retailer specializing in mobile products and accessories.<br></p><!-- End .lead text-primary -->
+                                <p class="mb-2">We offer a wide range of smartphones, chargers, cases, screen protectors, and mobile accessories. Our commitment to quality, fair pricing, and customer satisfaction sets us apart. Whether you need a new smartphone or accessories, we're your one-stop destination.</p>
+
+                                <a href="{% url 'blog' %}" class="btn btn-sm btn-minwidth btn-outline-primary-2">
+                                    <span>VIEW OUR NEWS</span>
+                                    <i class="icon-long-arrow-right"></i>
+                                </a>
+                            </div><!-- End .col-lg-5 -->
+
+                            <div class="col-lg-6 offset-lg-1">
+                                <div class="about-images">
+                                    <img src="{% static 'assets/img/about-image-1.jpg' %}" alt="About Us" class="about-img-front">
+                                    <img src="{% static 'assets/img/about-image-2.jpg' %}" alt="About Us" class="about-img-back">
+                                </div><!-- End .about-images -->
+                            </div><!-- End .col-lg-6 -->
+                        </div><!-- End .row -->
+                    </div><!-- End .container -->
+                </div><!-- End .bg-light-2 pt-6 pb-6 -->
+
+
+
+                    <hr class="mt-4 mb-6">
+
+                    
+                </div><!-- End .container -->
+
+                <div class="mb-2"></div><!-- End .mb-2 -->
+
+                <div class="about-testimonials bg-light-2 pt-6 pb-6">
+                    <div class="container">
+                        <h2 class="title text-center mb-3">What Customers Say About Us</h2><!-- End .title text-center -->
+
+                        <div class="owl-carousel owl-simple owl-testimonials-photo" data-toggle="owl" 
+                            data-owl-options='{
+                                "nav": false, 
+                                "dots": true,
+                                "margin": 20,
+                                "loop": false,
+                                "responsive": {
+                                    "1200": {
+                                        "nav": true
+                                    }
+                                }
+                            }'>
+                            <blockquote class="testimonial text-center">
+                                <p>" Great shopping experience! Found exactly what I needed at a fantastic price. Highly recommended! "</p>
+                                <img src="{% static 'assets/img/testimonial-1.jpg' %}" alt="user">
+                                <cite>
+                                    Jisan Roy
+                                    <span>Customer</span>
+                                </cite>
+                            </blockquote><!-- End .testimonial -->
+
+                            <blockquote class="testimonial text-center">
+                                <img src="{% static 'assets/img/testimonial-2.jpg' %}" alt="user">
+                                <p>" Excellent quality products and reasonable prices. Everything works perfectly. Will shop again! "</p>
+
+                                <cite>
+                                    Rahim Islam
+                                    <span>Customer</span>
+                                </cite>
+                            </blockquote><!-- End .testimonial -->
+                        </div><!-- End .testimonials-slider owl-carousel -->
+                    </div><!-- End .container -->
+                </div><!-- End .bg-light-2 pt-5 pb-6 -->
+            </div><!-- End .page-content -->
+        </main><!-- End .main -->
+{% endblock %}

@@ -1,0 +1,49 @@
+{% extends 'dashboard/main.html' %}
+{% load static %}
+
+{% block content %}
+<div class="main-content">
+	<section class="section">
+		<div class="section-body">
+			<div class="row">
+				<div class="col-md-6">
+					<div class="card">
+						<div class="card-header"><h4>Edit Featured Product</h4></div>
+						<div class="card-body">
+							<form method="post" enctype="multipart/form-data">
+								{% csrf_token %}
+								{{ form.as_p }}
+								<button type="submit" class="btn btn-primary">Update Featured Product</button>
+							</form>
+						</div>
+					</div>
+				</div>
+				<div class="col-md-6">
+					<div class="card">
+						<div class="card-header"><h4>Preview</h4></div>
+						<div class="card-body">
+							<div class="mb-3">
+								<strong>Background:</strong><br>
+								{% if featured_product.background %}
+									<img src="{{ featured_product.background.url }}" class="img-fluid" alt="Background">
+								{% else %}
+									<p>No background image.</p>
+								{% endif %}
+							</div>
+							<div class="mb-3">
+								<strong>Category:</strong> {{ featured_product.catagory }}
+							</div>
+							<div class="mb-3">
+								<strong>Title:</strong> {{ featured_product.taitle }}
+							</div>
+							<div class="mb-3">
+								<strong>URL:</strong> <a href="{{ featured_product.url }}" target="_blank">{{ featured_product.url }}</a>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</section>
+</div>
+{% endblock %}

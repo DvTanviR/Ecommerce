@@ -1,0 +1,194 @@
+{% extends 'main.html' %}
+
+{% block content %}
+{% load custom_tag %}
+
+<main class="main">
+    <nav aria-label="breadcrumb" class="breadcrumb-nav">
+        <div class="container">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a href="{% url 'home' %}">Home</a></li>
+                <li class="breadcrumb-item"><a href="{% url 'shop' %}">Shop</a></li>
+                <li class="breadcrumb-item active" aria-current="page">Cart Checkout</li>
+            </ol>
+        </div>
+    </nav>
+
+    <div class="page-content">
+        <div class="checkout">
+            <div class="container">
+                {% if messages %}
+                <ul class="messages">
+                    {% for message in messages %}
+                        <li id="django-messeges">{{ message }}</li>
+                    {% endfor %}
+                </ul>
+                {% endif %}
+
+                <form action="" method="POST">
+                    {% csrf_token %}
+                    <div class="row">
+                        <div class="col-lg-9">
+                            <h2 class="checkout-title">Billing Details</h2>
+                            
+                            <label>Name *</label>
+                            <input type="text" name="name" class="form-control" value="{% if is_authenticated %}{{request.user.name}}{% endif %}" required>
+
+                            <!-- <label>Company Name (Optional)</label>
+                            <input type="text" name="company" class="form-control"> -->
+
+                            <h2 class="checkout-title">Delivery Address</h2>
+                            <label>Country *</label>
+                            <input type="text" name="country" class="form-control" value="Bangladesh" required>
+
+                            <div class="form-group mb-3">
+                                <label>Delivery Location *</label>
+                                <select name="delivery_location" class="form-control" id="delivery_location" required>
+                                    <option value="dhaka">Dhaka</option>
+                                    <option value="outside">Outside Dhaka</option>
+                                </select>
+                            </div>
+
+                            <label>Street address *</label>
+                            <input type="text" name="address" class="form-control" placeholder="House number and Street name" value="{% if address %}{{address.home_address}}{% endif %}" required>
+                            
+                            <!-- <label>Address line 2 (optional)</label>
+                            <input type="text" name="address2" class="form-control" placeholder="Apartments, suite, unit etc ..." value="{% if address %}{{address.home_address2}}{% endif %}"> -->
+
+                            <div class="row">
+                                <div class="col-sm-6">
+                                    <label>Town / City *</label>
+                                    <input type="text" name="town" class="form-control" value="{% if address %}{{address.town}}{% endif %}" required>
+                                </div>
+
+                                <div class="col-sm-6">
+                                    <label>Postcode *</label>
+                                    <input type="text" name="postcode" class="form-control" value="{% if address %}{{address.postcode}}{% endif %}" required>
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-sm-6">
+                                    <label>Phone *</label>
+                                    <input type="tel" name="phone" class="form-control" value="{% if is_authenticated %}{{request.user.phone}}{% endif %}" required>
+                                </div>
+
+                                <!-- <div class="col-sm-6">
+                                    <label>Email address *</label>
+                                    <input type="email" name="email" class="form-control" value="{% if is_authenticated %}{{request.user.email}}{% endif %}" required>
+                                </div> -->
+                            </div>
+                        </div>
+
+                        <aside class="col-lg-3">
+                            <div class="summary">
+                                <h3 class="summary-title">Your Order</h3>
+
+                                <table class="table table-summary">
+                                    <thead>
+                                        <tr>
+                                            <th>Product</th>
+                                            <th>Total</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        {% for item in cart_items %}
+                                        <tr>
+                                            <td>{{ item.product.taitle }}</td>
+                                            <td>৳{{ item.price }} Tk</td>
+                                        </tr>
+                                        {% endfor %}
+                                        <tr class="summary-subtotal">
+                                            <td>Subtotal:</td>
+                                            <td>৳<span id="subtotal">{{ cart_total }}</span> Tk</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Shipping:</td>
+                                            <td>৳<span id="delivery_price">60</span> Tk</td>
+                                        </tr>
+                                        <tr class="summary-total">
+                                            <td>Total:</td>
+                                            <td>৳<span id="total_price">{{ total }}</span> Tk</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+
+                                <div class="accordion-summary" id="accordion-payment">
+                                    <div class="card">
+                                        <div class="card-header" id="heading-3">
+                                            <h2 class="card-title">
+                                                <input id="cashradio" type="radio" name="payment" value="cash" class="collapsed" role="button" data-toggle="collapse" href="#collapse-3" aria-expanded="false" aria-controls="collapse-3" aria-selected="true" required checked>
+                                                Cash on delivery
+                                            </h2>
+                                        </div>
+                                        <div id="collapse-3" class="collapse show" aria-labelledby="heading-3" data-parent="#accordion-payment">
+                                            <div class="card-body" id="delever-note">
+                                                Pay when you receive your order
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <button type="submit" class="btn btn-outline-primary-2 btn-order btn-block">
+                                    <span class="btn-text">Place Order</span>
+                                    <span class="btn-hover-text">Proceed to Checkout</span>
+                                </button>
+                            </div>
+                        </aside>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</main>
+
+{% endblock %}
+
+{% block extrajs %}
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const deliveryLocationSelect = document.getElementById('delivery_location');
+    const deliveryPriceSpan = document.getElementById('delivery_price');
+    const totalPriceSpan = document.getElementById('total_price');
+    const subtotalSpan = document.getElementById('subtotal');
+    
+    // Remove currency symbols and convert to number
+    function extractNumber(str) {
+        return parseFloat(str.replace('৳', '').replace('Tk', '').trim());
+    }
+    
+    // Format number with currency symbol
+    function formatCurrency(num) {
+        return num.toFixed(0);  // Bengali Taka doesn't use decimals
+    }
+    
+    function updatePrices() {
+        const subtotalAmount = extractNumber(subtotalSpan.textContent);
+        const deliveryPrice = deliveryLocationSelect.value === 'dhaka' ? 60 : 120;
+        
+        // Update delivery price display with animation
+        deliveryPriceSpan.style.transition = 'opacity 0.3s';
+        deliveryPriceSpan.style.opacity = '0';
+        setTimeout(() => {
+            deliveryPriceSpan.textContent = formatCurrency(deliveryPrice);
+            deliveryPriceSpan.style.opacity = '1';
+        }, 150);
+        
+        // Calculate and update total with animation
+        const total = subtotalAmount + deliveryPrice;
+        totalPriceSpan.style.transition = 'opacity 0.3s';
+        totalPriceSpan.style.opacity = '0';
+        setTimeout(() => {
+            totalPriceSpan.textContent = formatCurrency(total);
+            totalPriceSpan.style.opacity = '1';
+        }, 150);
+    }
+
+    // Update prices when delivery location changes
+    deliveryLocationSelect.addEventListener('change', updatePrices);
+    
+    // Initial update
+    updatePrices();
+});
+</script>
+{% endblock %}

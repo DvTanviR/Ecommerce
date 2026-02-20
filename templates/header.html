@@ -1,0 +1,201 @@
+{% load static %}
+
+{% block head %}
+    <meta name="description" content="Shop for quality mobile products and accessories at great prices.">
+    <meta name="keywords" content="Mobile shop, smartphone, phone charger, mobile accessories, online store">
+{% endblock %}
+
+<header class="header header-intro-clearance header-4">
+    <div class="header-top">
+        <div class="container">
+            <div class="header-left">
+                <a href="tel:+1-800-123-4567"><i class="icon-phone"></i> +1-800-123-4567</a>
+            </div><!-- End .header-left -->
+
+            <div class="header-right">
+                <ul class="top-menu">
+                    <li>
+                        <a href="#">Links</a>
+                        <ul>
+                            <li>
+                                <div class="header-dropdown">
+                                    <a >BDT</a>
+                                </div>
+                            </li>
+                            <li>
+                                <div class="header-dropdown">
+                                    <a >English</a>
+                                </div>
+                            </li>
+                            {%if request.user.is_authenticated%}
+                                <li><p>Hello, {{request.user.name}}</p></li>
+                            {% else %}
+                                <li><a href="{% url 'login' %}">Sign in / Sign up</a></li>
+                            {% endif %} 
+                        </ul>
+                    </li>
+                </ul><!-- End .top-menu -->
+            </div><!-- End .header-right -->
+
+        </div><!-- End .container -->
+    </div><!-- End .header-top -->
+
+    <div class="header-middle">
+        <div class="container">
+            <div class="header-left">
+                <button class="mobile-menu-toggler">
+                    <span class="sr-only">Toggle mobile menu</span>
+                    <i class="icon-bars"></i>
+                </button>
+                
+                <a href="{% url 'home' %}" class="logo">
+                    <img src="{% static 'assets/img/logo.png' %}" alt="Logo" style="width: 150px;">
+                </a>
+            </div><!-- End .header-left -->
+
+            <div class="header-center">
+                <div class="header-search header-search-extended header-search-visible d-none d-lg-block">
+                    <a href="#" class="search-toggle" role="button" style="background: none; border: none;"><i class="icon-search"></i></a>
+                    <form action="{% url 'shop' %}" method="get">
+                        <div class="header-search-wrapper search-wrapper-wide">
+                            <label for="q" class="sr-only">Search</label>
+                            <button class="btn btn-primary" type="submit"><i class="icon-search"></i></button>
+                            <input type="search" class="form-control" name="q" id="q" placeholder="Search product ..." required autocomplete="off">
+                            <div id="search-suggestions" class="search-suggestions" style="display: none;"></div>
+                        </div><!-- End .header-search-wrapper -->
+                    </form>
+                </div><!-- End .header-search -->
+            </div>
+
+            <div class="header-right">
+                <div class="wishlist">
+                    <a href="{% url 'account' %}" title="Account dashboard">
+                        <div class="icon">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-person-circle" viewBox="0 0 16 16">
+                              <path d="M11 6a3 3 0 1 1-6 0 3 3 0 0 1 6 0z"/>
+                              <path fill-rule="evenodd" d="M0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8zm8-7a7 7 0 0 0-5.468 11.37C3.242 11.226 4.805 10 8 10s4.757 1.225 5.468 2.37A7 7 0 0 0 8 1z"/> 
+                            </svg>
+                        </div>
+                        <p>Account</p>
+                    </a>
+                </div><!-- End .compare-dropdown -->
+
+                <div class="wishlist">
+                    <a href="{% url 'wishlist' %}" title="Wishlist">
+                        <div class="icon">
+                            <i class="icon-heart-o"></i>
+                            <span class="wishlist-count badge">{% if request.user.wishlist_set.all.count %}{{request.user.wishlist_set.all.count}}{% else %}0{% endif %}</span>
+                        </div>
+                        <p>Wishlist</p>
+                    </a>
+                </div><!-- End .compare-dropdown --> 
+
+
+
+                <div class="dropdown cart-dropdown">
+                    <a href="{% url 'cart' %}" class="dropdown-toggle">
+                        <div class="icon">
+                            <i class="icon-shopping-cart"></i>
+                            <span class="cart-count">
+                                {% if request.user.is_authenticated %}
+                                    {% if request.user.cart_set.all.count %}{{request.user.cart_set.all.count}}{% else %}0{% endif %}
+                                {% else %}
+                                    {% if request.session.cart %}{{ request.session.cart|length }}{% else %}0{% endif %}
+                                {% endif %}
+                            </span>
+                        </div>
+                        <p>Cart</p>
+                    </a>
+                </div><!-- End .cart-dropdown -->
+            </div><!-- End .header-right -->
+        </div><!-- End .container -->
+    </div><!-- End .header-middle -->
+
+    <div class="header-bottom sticky-header">
+        <div class="container">
+            <div class="header-left">
+                <div class="dropdown category-dropdown">
+                    <a href="#" class="dropdown-toggle" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" data-display="static" title="Browse Categories">
+                        Browse Categories <i class="icon-angle-down"></i>
+                    </a>
+
+                    <div class="dropdown-menu">
+                        <nav class="side-nav">
+                            <ul class="menu-vertical sf-arrows">
+                                {% for item in catagorys %}
+                                <li class="item-lead"><a href="/shop/?q={{item.name}}">{{item.name}}</a></li>
+                                {% endfor %}
+                            </ul><!-- End .menu-vertical -->
+                        </nav><!-- End .side-nav -->
+                    </div><!-- End .dropdown-menu -->
+                </div><!-- End .category-dropdown -->
+            </div><!-- End .header-left --> 
+
+            <div class="header-center">
+                <nav class="main-nav">
+                    <ul class="menu sf-arrows">
+                        {% if page == 'home' %}
+                        <li class="megamenu-container active">
+                            <a href="{% url 'home' %}" class="">Home</a>
+                        </li>
+                        {% else %}
+                        <li >
+                            <a href="{% url 'home' %}" class="">Home</a>
+                        </li>
+                        {% endif %}
+
+                        {% if page == 'shop' %}
+                        <li class="megamenu-container active">
+                            <a href="{% url 'shop' %}" class="">Shop</a>
+                        </li>
+                        {% else %}
+                        <li >
+                            <a href="{% url 'shop' %}" class="">Shop</a>
+                        </li>
+                        {% endif %}
+                        {% if page == 'sellp' %}
+                        <li class="megamenu-container active">
+                            <a href="{% url 'sell' %}" class="">Sell</a>
+                        </li>
+                        {% else %}
+                        <li >
+                            <a href="{% url 'sell' %}" class="">Sell</a>
+                        </li>
+                        {% endif %}
+                        {% if page == 'topp' %}
+                        <li class="megamenu-container active">
+                            <a href="{% url 'top' %}" class="">Top products</a>
+                        </li>
+                        {% else %}
+                        <li >
+                            <a href="{% url 'top' %}" class="">Top products</a>
+                        </li>
+                        {% endif %}
+                        {% if page == 'dashboard' %}
+                        <li class="megamenu-container active">
+                            <a href="{% url 'account' %}" class="">Account</a>
+                        </li>
+                        {% else %}
+                        <li >
+                            <a href="{% url 'account' %}" class="">Account</a>
+                        </li>
+                        {% endif %}
+
+                        <li>
+                            <a href="#">Pages</a>
+                             <ul>
+                                <li><a href="{% url 'contact' %}">Contact</a></li>
+                                <li><a href="{% url 'about' %}">About</a></li>
+                                <li><a href="{% url 'blog' %}">Blog</a></li>
+                            </ul>
+                        </li>
+                    </ul><!-- End .menu -->
+                </nav><!-- End .main-nav -->
+            </div><!-- End .header-center -->
+
+            <div class="header-right">
+                <i class="la la-mobile"></i><p><span class="highlight">Your Brand - Quality Products</span></p>
+            </div>
+        </div><!-- End .container -->
+    </div><!-- End .header-bottom -->
+</header><!-- End .header -->

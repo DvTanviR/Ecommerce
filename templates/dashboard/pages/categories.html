@@ -1,0 +1,52 @@
+{% extends 'dashboard/main.html' %}
+
+{% block content %}
+
+<div class="main-content">
+  <section class="section">
+    <div class="section-body">
+      <div class="row">
+        <div class="col-12">
+          <div class="card">
+            <div class="card-header">
+              <h4>Categories</h4>
+              <a href="{% url 'add_category' %}" class="btn btn-primary ml-auto">Add Category</a>
+            </div>
+            <div class="card-body">
+              <div class="table-responsive">
+                <table class="table table-striped" id="table-1">
+                  <thead>
+                    <tr>
+                      <th class="text-center">#</th>
+                      <th>Name</th>
+                      <th>Slug</th>
+                      <th>Actions</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {% for category in categories %}
+                    <tr>
+                      <td>{{ forloop.counter }}</td>
+                      <td>{{ category.name }}</td>
+                      <td>{{ category.slug }}</td>
+                      <td>
+                        <a href="{% url 'edit_category' category.id %}" class="btn btn-sm btn-warning">Edit</a>
+                        <a href="{% url 'delete_category' category.id %}" class="btn btn-sm btn-danger" onclick="return confirm('Are you sure you want to delete this category?');">Delete</a>
+                      </td>
+                    </tr>
+                    {% empty %}
+                    <tr>
+                      <td colspan="4" class="text-center">No categories found.</td>
+                    </tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+                </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+{% endblock %}

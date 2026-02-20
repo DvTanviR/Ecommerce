@@ -1,0 +1,23 @@
+<div class="container">
+    <h2 class="title text-center mb-4">Explore Popular Categories</h2><!-- End .title text-center -->
+    
+    <div class="cat-blocks-container">
+        <div class="row">
+
+            {% for catagorys in catagory %}
+            <div class="col-6 col-sm-4 col-lg-2">
+                <a href="shop/?q={{catagorys.name}}" class="cat-block">
+                    <figure>
+                        <span>
+                            <img class="lazy" data-src="{{catagorys.image.url}}" alt="Category image">
+                        </span>
+                    </figure>
+
+                    <h3 class="cat-block-title">{{catagorys.name}}</h3><!-- End .cat-block-title -->
+                </a>
+            </div><!-- End .col-sm-4 col-lg-2 -->
+            {% endfor %}
+
+        </div><!-- End .row -->
+    </div><!-- End .cat-blocks-container -->
+</div><!-- End .container -->

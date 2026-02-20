@@ -1,0 +1,32 @@
+{% extends 'main.html' %}
+
+{% block head %}
+    <meta name="description" content="Page not found. Return to the ERS Fashon homepage.">
+    <meta name="keywords" content="ERS Fashon, Garment products, polo shirt, clothing brand, 404, error">
+{% endblock %}
+
+{% block content %}
+{% load static %}
+        <main class="main">
+            <nav aria-label="breadcrumb" class="breadcrumb-nav border-0 mb-0">
+                <div class="container">
+                    <ol class="breadcrumb">
+                        <li class="breadcrumb-item"><a href="{% url 'home' %}">Home</a></li>
+                        <li class="breadcrumb-item active" aria-current="page">Blog</li>
+                    </ol>
+                </div><!-- End .container -->
+            </nav><!-- End .breadcrumb-nav -->
+
+        	<div class="error-content text-center" style="background-image: url({% static 'assets/img/error-bg.jpg' %})">
+            	<div class="container">
+            		<h1 class="error-title">Error 404</h1><!-- End .error-title -->
+            		<p>We are sorry, the page you've requested is not available.</p>
+            		<a href="{% url 'home' %}" class="btn btn-outline-primary-2 btn-minwidth-lg">
+            			<span>BACK TO HOMEPAGE</span>
+            			<i class="icon-long-arrow-right"></i>
+            		</a>
+            	</div><!-- End .container -->
+        	</div><!-- End .error-content text-center -->
+        </main><!-- End .main -->
+
+{% endblock %}

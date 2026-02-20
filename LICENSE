@@ -1,0 +1,78 @@
+MIT License
+
+Copyright (c) 2026 YourBrand E-Commerce Platform Contributors
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
+
+---
+
+## Summary
+
+This project is licensed under the MIT License, which means:
+
+✅ **You CAN:**
+- Use this software commercially (sell a product using it)
+- Modify the code to fit your needs
+- Distribute copies of the software
+- Use it for private or personal projects
+- Sublicense the software
+
+❌ **You CANNOT:**
+- Hold the authors liable for issues or damages
+- Claim the software as your own without attribution
+
+📝 **You MUST:**
+- Include the original copyright notice and license in any copies or substantial portions
+- Include the notice that the software is provided "as is" without warranty
+
+---
+
+## For Contributors
+
+If you contribute to this project, your contributions are also covered under
+this MIT License. By submitting a pull request or contribution, you agree to
+license your contribution under this MIT License.
+
+---
+
+## Using This Project
+
+The simplest way to comply with this license is to:
+
+1. Keep the LICENSE file in your project
+2. Mention in your README that you're using this software
+3. If you modify it, consider noting what changes you made
+
+Example attribution:
+```
+This project is built with YourBrand E-Commerce Platform
+(https://github.com/your-repo)
+Licensed under the MIT License
+```
+
+---
+
+## Questions?
+
+For more information about the MIT License, visit:
+https://opensource.org/licenses/MIT
+
+---
+
+**License Last Updated:** February 20, 2026

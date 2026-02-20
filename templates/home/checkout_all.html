@@ -1,0 +1,141 @@
+{% extends 'main.html' %}
+
+{% block content %}
+{% load custom_tag %}
+
+        <main class="main">
+            <nav aria-label="breadcrumb" class="breadcrumb-nav">
+                <div class="container">
+                    <ol class="breadcrumb">
+                        <li class="breadcrumb-item"><a href="{% url 'home' %}">Home</a></li>
+                        <li class="breadcrumb-item"><a href="{% url 'shop' %}">Shop</a></li>
+                        <li class="breadcrumb-item active" aria-current="page">Checkout</li>
+                    </ol>
+                </div><!-- End .container -->
+            </nav><!-- End .breadcrumb-nav -->
+
+            <div class="page-content">
+            	<div class="checkout">
+	                <div class="container">
+						{% if messages %}
+						<ul class="messages">
+							{% for message in messages %}
+							 	<li id="django-messeges">{{ message }}</li>
+							{% endfor %}
+						</ul>
+						{% endif %}
+
+            			<form action="" method="POST">
+							{% csrf_token %}
+		                	<div class="row">
+		                		<div class="col-lg-9">
+		                			<h2 class="checkout-title">Billing Details</h2><!-- End .checkout-title -->
+		                				
+	            						<label>Name *</label>
+	            						<input type="text" name="name" class="form-control" value="{{request.user.name}}" required>
+
+	            						<label>Company Name (Optional)</label>
+	            						<input type="text" name="company" class="form-control">
+
+										<h2 class="checkout-title">Delivery Address</h2>
+	            						<label>Country *</label>
+	            						<input type="text" name="country" class="form-control" value="Bangladesh" required>
+
+	            						<label>Street address *</label>
+	            						<input type="text" name="address" class="form-control" placeholder="House number and Street name" value="{{address.home_address}}" required>
+										<label>Address line 2 (optional)</label>
+	            						<input type="text" name="address2" class="form-control" placeholder="Apartments, suite, unit etc ..." value="{{address.home_address2}}">
+
+	            						<div class="row">
+		                					<div class="col-sm-6">
+		                						<label>Town / City *</label>
+		                						<input type="text" name="town" class="form-control" value="{{address.town}}" required>
+		                					</div>
+
+		                					<div class="col-sm-6">
+		                						<label>Postcode / ZIP *</label>
+		                						<input type="text" name="postcode" class="form-control" value="{{address.postcode}}" required>
+		                					</div>
+		                				</div>
+
+										<h2 class="checkout-title">Contact Details</h2>
+
+		                				<div class="row">
+		                					<div class="col-sm-6">
+		                						<label>Phone *</label>
+		                						<input type="tel" name="phone" class="form-control" value="{{request.user.phone}}" required>
+		                					</div>
+
+		                					<div class="col-sm-6">
+		                						<label>Email address *</label>
+	        								    <input type="email" name="email" class="form-control" value="{{request.user.email}}" required>
+		                					</div>
+		                				</div>
+
+		                		</div><!-- End .col-lg-9 -->
+		                		
+		                		<aside class="col-lg-3">
+		                			<div class="summary">
+		                				<h3 class="summary-title">Your Order</h3><!-- End .summary-title -->
+
+		                				<table class="table table-summary">
+		                					<thead>
+		                						<tr>
+		                							<th>Product</th>
+		                							<th>Total</th>
+		                						</tr>
+		                					</thead>
+
+		                					<tbody>
+											{% for item in cart_items %}
+		                						<tr>
+		                							<td><a href="{% url 'product' item.product.slug %}">{{item.product.taitle}}</a></td>
+		                							<td>৳{{item.product.price}} Tk</td>
+		                						</tr>
+											{% endfor %}
+
+		                						<tr class="summary-subtotal">
+		                							<td>Subtotal:</td>
+		                							<td>৳{{cart_total}} Tk</td>
+		                						</tr>
+		                						<tr>
+		                							<td>Shipping:</td>
+		                							<td>৳{{delivery_total}} Tk</td>
+		                						</tr>
+		                						<tr class="summary-total">
+		                							<td>Total:</td>
+		                							<td>৳{{total}} Tk</td>
+		                						</tr>
+		                					</tbody>
+		                				</table>
+
+		                				<div class="accordion-summary" id="accordion-payment">
+										    <div class="card">
+										        <div class="card-header" id="heading-3">
+										            <h2 class="card-title">
+										                <input id="cashradio" type="radio" name="payment" value="cash" class="collapsed" role="button" data-toggle="collapse" href="#collapse-3" aria-expanded="false" aria-controls="collapse-3" aria-selected="true" required checked>
+										                Cash on delivery
+										            </h2>
+										        </div>
+										        <div id="collapse-3" class="collapse show" aria-labelledby="heading-3" data-parent="#accordion-payment">
+										            <div class="card-body" id="delever-note">
+													Pay when you receive your order
+										            </div>
+										        </div>
+										    </div>
+										</div>
+
+		                				<button type="submit" class="btn btn-outline-primary-2 btn-order btn-block">
+		                					<span class="btn-text">Place Order</span>
+		                					<span class="btn-hover-text">Proceed to Checkout</span>
+		                				</button>
+		                			</div>
+		                		</aside>
+		                	</div>
+            			</form>
+	                </div>
+                </div>
+            </div>
+        </main>
+
+{% endblock %}

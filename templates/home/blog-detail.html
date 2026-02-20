@@ -1,0 +1,174 @@
+{% extends 'main.html' %}
+{% load social_share %}
+{% block content %}
+<main class="main">
+    <nav aria-label="breadcrumb" class="breadcrumb-nav mb-3">
+        <div class="container">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a href="{% url 'home' %}">Home</a></li>
+                <li class="breadcrumb-item"><a href="{% url 'blog' %}">Blog</a></li>
+                <li class="breadcrumb-item active" aria-current="page">{{ blog.title }}</li>
+            </ol>
+        </div>
+    </nav>
+
+    <div class="page-content">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-9">
+                    <article class="entry single-entry">
+                        <figure class="entry-media">
+                            <img src="{{ blog.featured_image.url }}" alt="{{ blog.title }}">
+                        </figure>
+
+                        <div class="entry-body">
+                            <div class="entry-meta">
+                                <span class="entry-author">
+                                    by <a href="#">{{ blog.author.name }}</a>
+                                </span>
+                                <span class="meta-separator">|</span>
+                                <a href="#">{{ blog.created_date|date:"M d, Y" }}</a>
+                                <span class="meta-separator">|</span>
+                                <a href="#comments">{{ total_comments }} Comments</a>
+                                <span class="meta-separator">|</span>
+                                <span>{{ blog.views }} Views</span>
+                            </div>
+
+                            <h1 class="entry-title">
+                                {{ blog.title }}
+                            </h1>
+
+                            <div class="entry-cats">
+                                in <a href="{% url 'blog' %}?category={{ blog.category.slug }}">{{ blog.category.name }}</a>
+                            </div>
+
+                            <div class="entry-content">
+                                {{ blog.content|safe }}
+                            </div>
+
+                            <div class="entry-footer">
+                                <div class="entry-tags">
+                                    <span>Tags:</span>
+                                    {% for tag in blog.tags.all %}
+                                    <a href="{% url 'blog' %}?tag={{ tag.slug }}">{{ tag.name }}</a>
+                                    {% endfor %}
+                                </div>
+
+                                <div class="social-icons mt-3">
+                                    <span class="social-label">Share this post:</span>
+                                    {% post_to_facebook object_or_url "<i class='icon-facebook-f'></i> Facebook " %}
+                                    {% post_to_twitter "Check out this article: {{ blog.title }}" object_or_url "<i class='icon-twitter'></i> Twitter " %}
+                                    {% post_to_linkedin object_or_url "<i class='icon-linkedin'></i> LinkedIn " %}
+                                </div>
+                            </div>
+                        </div>
+                    </article>
+
+                    <div class="related-posts">
+                        <h3 class="title">Related Posts</h3>
+                        <div class="row">
+                            {% for post in related_posts %}
+                            <div class="col-md-4">
+                                <article class="entry entry-grid">
+                                    <figure class="entry-media">
+                                        <a href="{% url 'blog_detail' post.slug %}">
+                                            <img src="{{ post.featured_image.url }}" alt="{{ post.title }}">
+                                        </a>
+                                    </figure>
+
+                                    <div class="entry-body">
+                                        <div class="entry-meta">
+                                            {{ post.created_date|date:"M d, Y" }}
+                                        </div>
+
+                                        <h2 class="entry-title">
+                                            <a href="{% url 'blog_detail' post.slug %}">{{ post.title }}</a>
+                                        </h2>
+                                    </div>
+                                </article>
+                            </div>
+                            {% endfor %}
+                        </div>
+                    </div>
+
+                    <div id="comments" class="comments mt-4">
+                        <h3 class="title mb-4">Comments ({{ total_comments }})</h3>
+
+                        {% if comments %}
+                        <ul class="comment-list">
+                            {% for comment in comments %}
+                            <li class="comment">
+                                <div class="comment-body">
+                                    <div class="comment-meta">
+                                        <strong class="comment-author">{{ comment.user.name }}</strong>
+                                        <span class="comment-date">{{ comment.created_date|date:"F d, Y" }}</span>
+                                    </div>
+                                    <div class="comment-content">
+                                        <p>{{ comment.content }}</p>
+                                    </div>
+                                </div>
+                            </li>
+                            {% endfor %}
+                        </ul>
+                        {% else %}
+                        <p>No comments yet. Be the first to comment!</p>
+                        {% endif %}
+
+                        {% if user.is_authenticated %}
+                        <div class="reply mt-4">
+                            <div class="heading">
+                                <h3 class="title">Leave A Comment</h3>
+                                <p class="title-desc">Your email address will not be published. Required fields are marked *</p>
+                            </div>
+
+                            <form action="" method="post" class="mt-2">
+                                {% csrf_token %}
+                                <div class="row">
+                                    <div class="col-12">
+                                        <label for="reply-message" class="sr-only">Comment *</label>
+                                        <textarea name="content" id="reply-message" cols="30" rows="4" 
+                                            class="form-control" required 
+                                            placeholder="Share your thoughts about this post *"></textarea>
+                                    </div>
+                                </div>
+
+                                <button type="submit" class="btn btn-outline-primary-2 mt-2">
+                                    <span>Post Comment</span>
+                                    <i class="icon-long-arrow-right"></i>
+                                </button>
+                            </form>
+                        </div>
+                        {% else %}
+                        <div class="reply mt-4">
+                            <p>Please <a href="{% url 'login' %}?next={{ request.path }}">login</a> to leave a comment.</p>
+                        </div>
+                        {% endif %}
+                    </div>
+                </div>
+
+                <aside class="col-lg-3">
+                    <div class="sidebar">
+                        <div class="widget widget-search">
+                            <h3 class="widget-title">Search</h3>
+                            <form action="{% url 'blog' %}">
+                                <label for="ws" class="sr-only">Search in blog</label>
+                                <input type="search" class="form-control" name="q" id="ws" placeholder="Search in blog" required>
+                                <button type="submit" class="btn"><i class="icon-search"></i><span class="sr-only">Search</span></button>
+                            </form>
+                        </div>
+
+                        <div class="widget widget-cats">
+                            <h3 class="widget-title">Categories</h3>
+                            <ul>
+                                {% for category in blog.category.blogcategory_set.all %}
+                                <li><a href="{% url 'blog' %}?category={{ category.slug }}">{{ category.name }}</a></li>
+                                {% endfor %}
+                            </ul>
+                        </div>
+                    </div>
+                </aside>
+            </div>
+        </div>
+    </div>
+</main>
+{% endblock %}
