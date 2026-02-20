@@ -111,7 +111,7 @@ python manage.py runserver
 
 ```bash
 # Option A: Clone from Git
-git clone <repository-url>
+git clone https://github.com/DvTanviR/Ecommerce
 cd "Open source"
 
 # Option B: Download and extract ZIP
@@ -305,7 +305,7 @@ sudo -u ecommerce -H bash
 cd ~
 
 # Clone project
-git clone <repository-url> project
+git clone https://github.com/DvTanviR/Ecommerce project
 
 # Go to project directory
 cd project
